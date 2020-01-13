@@ -41,15 +41,15 @@ public class Start extends AnchorPane {
         setMinHeight(USE_PREF_SIZE);
         setMinWidth(USE_PREF_SIZE);
         setPrefHeight(400.0);
-        setPrefWidth(449.0);
+        setPrefWidth(622.0);
 
         imageView.setFitHeight(400.0);
-        imageView.setFitWidth(449.0);
+        imageView.setFitWidth(622.0);
         imageView.setPickOnBounds(true);
         imageView.setImage(new Image(getClass().getResource("/img/Background.jpg").toExternalForm()));
 
         singleuser.setCenterShape(false);
-        singleuser.setLayoutX(123.0);
+        singleuser.setLayoutX(210.0);
         singleuser.setLayoutY(105.0);
         singleuser.setMnemonicParsing(false);
         singleuser.setPrefHeight(62.0);
@@ -66,7 +66,7 @@ public class Start extends AnchorPane {
         singleuser.setEffect(innerShadow);
 
         multiuser.setCenterShape(false);
-        multiuser.setLayoutX(123.0);
+        multiuser.setLayoutX(210.0);
         multiuser.setLayoutY(175.0);
         multiuser.setMnemonicParsing(false);
         multiuser.setPrefHeight(62.0);
@@ -84,14 +84,14 @@ public class Start extends AnchorPane {
 
         XO.setFitHeight(82.0);
         XO.setFitWidth(86.0);
-        XO.setLayoutX(191.0);
+        XO.setLayoutX(270.0);
         XO.setLayoutY(14.0);
         XO.setPickOnBounds(true);
         XO.setPreserveRatio(true);
         XO.setImage(new Image(getClass().getResource("/img/XOLOGO.jpg").toExternalForm()));
 
         multiuser1.setCenterShape(false);
-        multiuser1.setLayoutX(124.0);
+        multiuser1.setLayoutX(210.0);
         multiuser1.setLayoutY(245.0);
         multiuser1.setMnemonicParsing(false);
         multiuser1.setPrefHeight(62.0);
@@ -109,12 +109,12 @@ public class Start extends AnchorPane {
         multiuser1.setEffect(innerShadow1);
 
         replay.setCenterShape(false);
-        replay.setLayoutX(124.0);
+        replay.setLayoutX(210.0);
         replay.setLayoutY(316.0);
         replay.setMnemonicParsing(false);
         replay.setPrefHeight(62.0);
         replay.setPrefWidth(202.0);
-        replay.setText("Recorded Games");
+        replay.setText("Replay");
         replay.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
         replay.setTextFill(javafx.scene.paint.Color.valueOf("#eb1515"));
         replay.setFont(new Font("Forte", 21.0));

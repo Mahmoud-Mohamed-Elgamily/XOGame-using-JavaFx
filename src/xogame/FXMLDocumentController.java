@@ -315,7 +315,8 @@ public class FXMLDocumentController implements Initializable {
         record = false;
         recordBtn.setSelected(false);
         hm.clear();
-
+        scoreO.setText("0");
+        scoreX.setText("0");
         // set scene = to main ui scene
         XOGame.window.setScene(XOGame.scene);
         XOGame.window.show();

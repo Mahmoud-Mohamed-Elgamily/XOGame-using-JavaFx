@@ -13,7 +13,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 /**
@@ -23,8 +22,8 @@ import javafx.stage.Stage;
 public class XOGame extends Application {
 
     public static Stage window;
-    public static Scene scene, scene2, scene3;
-    Parent root2, root3;
+    public static Scene scene, scene2, scene3 , scene4;
+    Parent root2;
     Start root;
     
 //    @FXML
@@ -39,13 +38,16 @@ public class XOGame extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         window = stage;
+        
         root = new Start(window);
         scene = new Scene(root);
+        
         root2 = new singlehh(window);
         scene2 = new Scene(root2);
-        root3 = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
-        scene3 = new Scene(root3);
-
+        
+        scene3 = new Scene(FXMLLoader.load(getClass().getResource("FXMLDocument.fxml")));
+        scene4 = new Scene(FXMLLoader.load(getClass().getResource("ReplayUi.fxml")));
+        
         stage.setScene(scene);
         stage.show();
 
@@ -64,25 +66,14 @@ public class XOGame extends Application {
                 stage.show();
             }
         });
-//        root3.noBtn.setOnAction(new EventHandler<ActionEvent>() {
-//            @Override
-//            public void handle(ActionEvent event) {
-//                stage.setScene(scene3);
-//                stage.show();
-//            }
-//        });
+        root.replay.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                stage.setScene(scene4);
+                stage.show();
+            }
+        });
     }
-
-    // create method to switch theme and call it in the go home method
-//    public static void checkOutMain() {
-//        
-//    }
-//
-//    public void innerCheckOutMain() {
-//        window.setScene(scene);
-//        window.show();
-//    }
-
     /**
      * @param args the command line arguments
      */
