@@ -3,18 +3,24 @@ package tictactoeserver;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.net.Inet6Address;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Enumeration;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 class Player {
+
     private String userName, password, avatar;
     private boolean passwordBool;
 
@@ -22,20 +28,6 @@ class Player {
         userName = _userName;
         avatar = _avatar;
         password = _password;
-    //        ip = _ip;
-    //        score = _score;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public String getPassword() {
-        return userName;
-    }
-
-    public String getAvatar() {
-        return avatar;
     }
 
     void setName(String _userName) {
@@ -52,6 +44,22 @@ class Player {
 
     void setAvatar(String _avatar) {
         avatar = _avatar;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public boolean getPassBool() {
+        return passwordBool;
     }
 }
 
@@ -99,17 +107,17 @@ class DataBaseConnection {
         }
     }
 
-    protected Player signIn(String name , String password) {
+    protected Player signIn(String name, String password) {
         try {
             stmt = conn.prepareStatement("select * from player where user_name=?");
             stmt.setString(1, name);
             ResultSet signRs;
             signRs = stmt.executeQuery();
             if (signRs.next()) {
-                    Player playerX = new Player(signRs.getString(1), signRs.getString(2), signRs.getString(4));
-                if (signRs.getString(2) == password)
+                Player playerX = new Player(signRs.getString(1), signRs.getString(2), signRs.getString(4));
+                if (signRs.getString(2) == password) {
                     return playerX;
-                else{
+                } else {
                     playerX.setPassBool(false);
                     return playerX;
                 }
@@ -117,34 +125,92 @@ class DataBaseConnection {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        return null;    
+        return null;
     }
 }
 
 public class TicTacToeServer {
 
-    ServerSocket SS;
-    Socket S;
-    
-    public static void main(String[] args) {
-        DataBaseConnection dbc = new DataBaseConnection();
-        ResultSet innerRs = dbc.refreshQuery();
-        
-        new TicTacToeServer();
-    }
-    
-    public TicTacToeServer(){
+    private static void getIP() {
+        String ip = null;
         try {
-            SS = new ServerSocket(6000);
+            Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+            while (interfaces.hasMoreElements()) {
+                NetworkInterface iface = interfaces.nextElement();
+                // filters out 127.0.0.1 and inactive interfaces
+                if (iface.isLoopback() || !iface.isUp()) {
+                    continue;
+                }
+
+                Enumeration<InetAddress> addresses = iface.getInetAddresses();
+
+                while (addresses.hasMoreElements()) {
+                    InetAddress addr = addresses.nextElement();
+
+                    // *EDIT*
+                    if (addr instanceof Inet6Address) {
+                        continue;
+                    }
+
+                    ip = addr.getHostAddress();
+                    String[] arr = new String[4];
+                    arr = ip.split("\\.");
+                    if (!"192".equals(arr[0])) {
+                        System.out.printf(ip + " ");
+                    }
+                }
+            }
+        } catch (SocketException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    static ServerSocket handler;
+    Socket S;
+    static DataBaseConnection dbc;
+    static ResultSet innerRs;
+
+    public static void main(String[] args) {
+        dbc = new DataBaseConnection();
+        innerRs = dbc.refreshQuery();
+        try {
+            handler = new ServerSocket(3786);
+            System.out.printf("Server is running on ip ");
+            getIP();
+            System.out.println("and port number 3786");
+        } catch (IOException ex) {
+            Logger.getLogger(TicTacToeServer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        new TicTacToeServer();
+
+    }
+
+    public void startMatch() {
+        try {
+            Game game = new Game();
+            Game.Player playerX = game.new Player(handler.accept(), 'X');
+            Game.Player playerO = game.new Player(handler.accept(), 'O');
+            playerX.setOpponent(playerO);
+            playerO.setOpponent(playerX);
+            game.currentPlayer = playerX;
+            playerX.start();
+            playerO.start();
+        } catch (IOException ex) {
+            Logger.getLogger(TicTacToeServer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public TicTacToeServer() {
+        try {
             while (true) {
-                S = SS.accept();
+                S = handler.accept();
                 new PlayerHandler(S);
             }
         } catch (IOException ex) {
             ex.printStackTrace();
         }
     }
-    
+
     private static class PlayerHandler extends Thread {
 
         DataInputStream dis;
@@ -168,18 +234,10 @@ public class TicTacToeServer {
             while (true) {
                 try {
                     chatData = dis.readLine();
-                    sendMessageToAll(chatData);
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
             }
         }
-
-        private void sendMessageToAll(String chatData) {
-            for (PlayerHandler ch : Clients) {
-                ch.ps.println(chatData);
-            }
-        }
     }
-
 }
