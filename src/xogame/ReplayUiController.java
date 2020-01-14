@@ -14,6 +14,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.input.MouseEvent;
 
 /**
  * FXML Controller class
@@ -24,23 +25,25 @@ public class ReplayUiController implements Initializable {
 
     @FXML
     private ListView<String> recordsList;
-    @FXML
-    private Button btn;
 
     /**
      * Initializes the controller class.
      */
-    ReplayUiController() {
+
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        
         recordsList.getItems().add("first");
         recordsList.getItems().add("second");
         recordsList.getItems().add("third");
         recordsList.getItems().add("fourth");
-
+        
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+    @FXML
+    private void getClicked(MouseEvent event) {
+        String test = recordsList.getSelectionModel().getSelectedItem();
+        System.out.println(test);
     }
-
 }
+
