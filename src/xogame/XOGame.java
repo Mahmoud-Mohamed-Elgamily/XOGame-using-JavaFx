@@ -22,12 +22,9 @@ import javafx.stage.Stage;
 public class XOGame extends Application {
 
     public static Stage window;
-    public static Scene scene, scene2, scene3 , scene4;
+    public static Scene scene, scene2, scene3, scene4,scene5;
     Parent root2;
     Start root;
-    
-//    @FXML
-//    private Button noBtn;
 
     @FXML
     private void goToHome(ActionEvent event) {
@@ -38,16 +35,17 @@ public class XOGame extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         window = stage;
-        
+
         root = new Start(window);
         scene = new Scene(root);
-        
+
         root2 = new singlehh(window);
         scene2 = new Scene(root2);
-        
+
         scene3 = new Scene(FXMLLoader.load(getClass().getResource("FXMLDocument.fxml")));
         scene4 = new Scene(FXMLLoader.load(getClass().getResource("ReplayUi.fxml")));
         
+
         stage.setScene(scene);
         stage.show();
 
@@ -74,6 +72,7 @@ public class XOGame extends Application {
             }
         });
     }
+
     /**
      * @param args the command line arguments
      */
@@ -81,4 +80,8 @@ public class XOGame extends Application {
         launch(args);
     }
 
+    static void bth() {
+        window.setScene(XOGame.scene);
+        window.show();
+    }
 }

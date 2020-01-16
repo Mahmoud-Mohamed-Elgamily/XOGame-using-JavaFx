@@ -241,6 +241,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void switchRecordOption() {
         record = !record;
+        recordBtn.setStyle("-fx-background-color:#000");
     }
 
     private void popVideo() {
@@ -318,8 +319,7 @@ public class FXMLDocumentController implements Initializable {
         scoreO.setText("0");
         scoreX.setText("0");
         // set scene = to main ui scene
-        XOGame.window.setScene(XOGame.scene);
-        XOGame.window.show();
+        XOGame.bth();
         // ends here ....
         btn0.setText("");
         btn1.setText("");
