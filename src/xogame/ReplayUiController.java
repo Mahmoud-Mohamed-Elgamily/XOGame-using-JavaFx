@@ -41,9 +41,13 @@ public class ReplayUiController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         lhmReplay = new LinkedHashMap<>();
+        try{
         String[] f = new File("C:\\recordedGames").list();
-        for (String s : f) {
-            recordsList.getItems().add(s.split("\\.")[0]);
+            for (String s : f) {
+                recordsList.getItems().add(s.split("\\.")[0]);
+            }
+        }catch(NullPointerException ne){
+            System.out.println("sorry this folder doesnt exist yet");
         }
     }
 
