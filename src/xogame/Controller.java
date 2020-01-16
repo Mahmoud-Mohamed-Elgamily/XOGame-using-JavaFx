@@ -50,7 +50,7 @@ public class Controller {
                 rnumber = rn.nextInt(8);
                 if (buttons[rnumber].getText().equals("")) {
                     buttons[rnumber].setText("O");
-                    buttons[rnumber].setDisable(true);
+                   // buttons[rnumber].setDisable(true);
                     flageplayer = true;
                 }
             }
@@ -130,11 +130,11 @@ public class Controller {
         @Override
         public void handle(MouseEvent event) {
             Button clicked = (Button) event.getSource();
-            if (getwinner() == false) {
+            if (getwinner() == false&&clicked.getText()=="") {
                 clicked.setText("X");
                 flageplayer = false;
                 play();
-                clicked.setDisable(true);
+                //clicked.setDisable(true);
                 if (getwinner())
                 {whowin();}
             }

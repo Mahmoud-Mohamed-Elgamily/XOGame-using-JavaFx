@@ -5,7 +5,13 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -35,7 +41,7 @@ public  class singlehh extends BorderPane {
     protected final RowConstraints rowConstraints;
     protected final RowConstraints rowConstraints0;
     protected final RowConstraints rowConstraints1;
-    */
+   */
     protected  Button[] Buttons=new Button[9];
     public singlehh(Stage stage) {
 
@@ -224,9 +230,11 @@ public  class singlehh extends BorderPane {
         Buttons[8].setPrefHeight(86.0);
         Buttons[8].setPrefWidth(103.0);
         //Button=new Buttons[]{Buttons[0],Buttons[1],Buttons[2],Buttons[3],Buttons[4],Buttons[5],Buttons[6],Buttons[7],Buttons[8]};
-        
+        BackgroundImage myBI= new BackgroundImage(new Image("/img/Background.jpg",false),
+        BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+         BackgroundSize.DEFAULT);
         setCenter(gridPane);
-        
+        this.setBackground(new Background(myBI));
         
         pane1.getChildren().add(record);
         anchorPane.getChildren().add(label);
