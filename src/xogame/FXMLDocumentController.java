@@ -224,9 +224,7 @@ public class FXMLDocumentController implements Initializable {
                 clickedButton.setText("O");
                 hm.put(clickedButton.getId(), "O");
             }
-            for (Map.Entry<String, String> entry : hm.entrySet()) {
-                System.out.println(entry.getKey() + "  " + entry.getValue());
-            }
+
             checkIfGameEnds();
             setCurrentPlayerSymbol();
             if (isFirstPlayerTurn == 1) {

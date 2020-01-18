@@ -38,7 +38,6 @@ public class XOGame extends Application {
 
         root = new Start(window);
         scene = new Scene(root);
-//        root2 = new singlehh(window);
         root2 = new Singlee();
         scene2 = new Scene(root2);
 

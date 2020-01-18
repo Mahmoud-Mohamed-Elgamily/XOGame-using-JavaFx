@@ -2,6 +2,7 @@ package tictactoeserver;
 
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.PrintStream;
 import java.net.Inet6Address;
 import java.net.InetAddress;
@@ -15,53 +16,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Enumeration;
+import java.util.LinkedHashMap;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-class Player {
-
-    private String userName, password, avatar;
-    private boolean passwordBool;
-
-    public Player(String _userName, String _password, String _avatar) {
-        userName = _userName;
-        avatar = _avatar;
-        password = _password;
-    }
-
-    void setName(String _userName) {
-        userName = _userName;
-    }
-
-    void setPassBool(boolean _passwordBool) {
-        passwordBool = _passwordBool;
-    }
-
-    void setPassword(String _password) {
-        password = _password;
-    }
-
-    void setAvatar(String _avatar) {
-        avatar = _avatar;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public boolean getPassBool() {
-        return passwordBool;
-    }
-}
 
 class DataBaseConnection {
 
@@ -94,43 +52,60 @@ class DataBaseConnection {
         return null;
     }
 
-    protected void Register(Player gamer) {
+    protected boolean Register(String userName, String password, String avatar) {
         try {
             stmt = conn.prepareStatement("insert into player(user_name,pass,avatar) values(? ,?,?)");
-            stmt.setString(1, gamer.getUserName());
-            stmt.setString(2, gamer.getPassword());
-            stmt.setString(3, gamer.getAvatar());
+            stmt.setString(1, userName);
+            stmt.setString(2, password);
+            stmt.setString(3, "" + avatar);
             stmt.executeUpdate();
-
+            return true;
         } catch (SQLException ex) {
             System.out.println("Dublicated user please choose other name");
+            return false;
         }
     }
 
-    protected Player signIn(String name, String password) {
+    protected void updateScore(String name, int score) {
+        try {
+
+            stmt = conn.prepareStatement("update player set win_score=? where user_name=?");
+            stmt.setString(1, "" + score);
+            stmt.setString(2, name);
+            stmt.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(DataBaseConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    protected String signIn(String name, String password) {
         try {
             stmt = conn.prepareStatement("select * from player where user_name=?");
             stmt.setString(1, name);
             ResultSet signRs;
             signRs = stmt.executeQuery();
             if (signRs.next()) {
-                Player playerX = new Player(signRs.getString(1), signRs.getString(2), signRs.getString(4));
                 if (signRs.getString(2) == password) {
-                    return playerX;
+                    return "pass";
                 } else {
-                    playerX.setPassBool(false);
-                    return playerX;
+                    return "wrongPass";
                 }
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
+            return "dublicated";
         }
-        return null;
+        return "wrongName";
     }
 }
 
 public class TicTacToeServer {
 
+    static DataBaseConnection dbc;
+    static ResultSet innerRs;
+    static ServerSocket serverHandler;
+    Socket playerHandler;
+    
     private static void getIP() {
         String ip = null;
         try {
@@ -155,8 +130,8 @@ public class TicTacToeServer {
                     ip = addr.getHostAddress();
                     String[] arr = new String[4];
                     arr = ip.split("\\.");
-                    if (!"192".equals(arr[0])) {
-                        System.out.printf(ip + " ");
+                    if (!"1".equals(arr[3])) {
+                        System.out.println(ip + " ");
                     }
                 }
             }
@@ -165,46 +140,24 @@ public class TicTacToeServer {
         }
     }
 
-    static ServerSocket handler;
-    Socket S;
-    static DataBaseConnection dbc;
-    static ResultSet innerRs;
-
     public static void main(String[] args) {
         dbc = new DataBaseConnection();
         innerRs = dbc.refreshQuery();
         try {
-            handler = new ServerSocket(3786);
+            serverHandler = new ServerSocket(3786);
             System.out.printf("Server is running on ip ");
             getIP();
-            System.out.println("and port number 3786");
         } catch (IOException ex) {
             Logger.getLogger(TicTacToeServer.class.getName()).log(Level.SEVERE, null, ex);
         }
         new TicTacToeServer();
-
-    }
-
-    public void startMatch() {
-        try {
-            Game game = new Game();
-            Game.Player playerX = game.new Player(handler.accept(), 'X');
-            Game.Player playerO = game.new Player(handler.accept(), 'O');
-            playerX.setOpponent(playerO);
-            playerO.setOpponent(playerX);
-            game.currentPlayer = playerX;
-            playerX.start();
-            playerO.start();
-        } catch (IOException ex) {
-            Logger.getLogger(TicTacToeServer.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     public TicTacToeServer() {
         try {
             while (true) {
-                S = handler.accept();
-                new PlayerHandler(S);
+                playerHandler = serverHandler.accept();
+                new PlayerHandler(playerHandler);
             }
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -215,14 +168,25 @@ public class TicTacToeServer {
 
         DataInputStream dis;
         PrintStream ps;
+        private ObjectInputStream ois;
+
         String chatData = "";
-        static Vector<PlayerHandler> Clients = new Vector<PlayerHandler>();
+        static Vector<String> loggedUsers = new Vector<>();
+        static Vector<String> returnNames = new Vector<>();
+        //static Vector<String> receivedData = new Vector<>();
+
+        private void sendNames(ResultSet rs) throws SQLException {
+            while (rs.next()) {
+                returnNames.add(rs.getString(1));
+            }
+            ps.println(returnNames);
+        }
 
         public PlayerHandler(Socket S) {
             try {
                 dis = new DataInputStream(S.getInputStream());
                 ps = new PrintStream(S.getOutputStream());
-                Clients.add(this);
+
                 start();
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -234,10 +198,93 @@ public class TicTacToeServer {
             while (true) {
                 try {
                     chatData = dis.readLine();
+                    String switchable = chatData.split("\\.")[0];
+
+                    switch (switchable) {
+                        case "su":
+                            signUpHandler(chatData);
+                            break;
+                        case "si":
+                            signInHandler(chatData);
+                            break;
+                        case "startMatch":
+                            startMatch(chatData);
+                            break;
+                        case "invite":
+                            invite(chatData);
+                            break;
+
+                    }
+                    // pass chatData to signup
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
             }
         }
+
+        public void signUpHandler(String data) {
+            String[] cleanedData = stripData(data);
+            if (dbc.Register(cleanedData[1], cleanedData[2], cleanedData[3])) {
+                ps.println("done");
+            } else {
+                ps.println("failed");
+            }
+        }
+
+        private void signInHandler(String data) {
+            String[] cleanedData = stripData(data);
+            String handle = dbc.signIn(cleanedData[1], cleanedData[2]);
+            switch (handle) {
+                case "pass":
+                    ps.println("pass");
+                    break;
+                case "wrongPass":
+                    ps.println("wrongPass");
+                    break;
+                case "dublicated":
+                    ps.println("dublicated");
+                    break;
+                case "wrongName":
+                    ps.println("wrongName");
+                    break;
+            }
+        }
+
+        private String[] stripData(String data) {
+            String[] receivedData = data.split("\\.");
+            /*
+                LinkedHashMap<String, String> cleanedData = new LinkedHashMap<>();
+                for (int i = 1; i < receivedData.length; i++) {
+                    String[] arr = receivedData[i].split(",");
+                    cleanedData.put(receivedData[0], receivedData[1]);
+                }
+            */
+            return receivedData;
+        }
+
+        private void startMatch(String data) {
+            try {
+                String[] cleanedData = stripData(data);
+                String player1 = cleanedData[1];
+                String player2 = cleanedData[2];
+                // get each player socket and send it to the game.new player() constructor
+                Game game = new Game();
+                Game.Player playerX = game.new Player(serverHandler.accept(), 'X');
+                Game.Player playerO = game.new Player(serverHandler.accept(), 'O');
+                playerX.setOpponent(playerO);
+                playerO.setOpponent(playerX);
+                game.currentPlayer = playerX;
+                playerX.start();
+                playerO.start();
+            } catch (IOException ex) {
+                Logger.getLogger(TicTacToeServer.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        private void invite(String data) {
+            String[] cleanedData = stripData(data);
+            // get players names and send invitation to destination player
+        }
     }
+
 }
