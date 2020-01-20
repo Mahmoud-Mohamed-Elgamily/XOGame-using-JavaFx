@@ -52,16 +52,14 @@ class DataBaseConnection {
         return null;
     }
 
-    protected boolean Register(String userName, String password, String avatar) {
+    protected boolean Register(String userName, String password) {
         try {
-            stmt = conn.prepareStatement("insert into player(user_name,pass,avatar) values(? ,?,?)");
+            stmt = conn.prepareStatement("insert into player(user_name,pass) values(? ,?)");
             stmt.setString(1, userName);
             stmt.setString(2, password);
-            stmt.setString(3, "" + avatar);
             stmt.executeUpdate();
             return true;
         } catch (SQLException ex) {
-            System.out.println("Dublicated user please choose other name");
             return false;
         }
     }
@@ -85,7 +83,7 @@ class DataBaseConnection {
             ResultSet signRs;
             signRs = stmt.executeQuery();
             if (signRs.next()) {
-                if (signRs.getString(2) == password) {
+                if (signRs.getString(2).equals(password)) {
                     return "pass";
                 } else {
                     return "wrongPass";
@@ -93,7 +91,7 @@ class DataBaseConnection {
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
-            return "dublicated";
+//            return "dublicated";
         }
         return "wrongName";
     }
@@ -105,7 +103,7 @@ public class TicTacToeServer {
     static ResultSet innerRs;
     static ServerSocket serverHandler;
     Socket playerHandler;
-    
+
     private static void getIP() {
         String ip = null;
         try {
@@ -148,7 +146,7 @@ public class TicTacToeServer {
             System.out.printf("Server is running on ip ");
             getIP();
         } catch (IOException ex) {
-            Logger.getLogger(TicTacToeServer.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
         new TicTacToeServer();
     }
@@ -171,13 +169,18 @@ public class TicTacToeServer {
         private ObjectInputStream ois;
 
         String chatData = "";
-        static Vector<String> loggedUsers = new Vector<>();
-        static Vector<String> returnNames = new Vector<>();
-        //static Vector<String> receivedData = new Vector<>();
+        static Vector<PlayerHandler> loggedUsers = new Vector<>();
+        static Vector<String> returnNames;
+        static String player1name, player2name;
+        Socket playerSocket;
+        String currentPlayerName, handle;
 
         private void sendNames(ResultSet rs) throws SQLException {
-            while (rs.next()) {
-                returnNames.add(rs.getString(1));
+            returnNames = new Vector<>();
+            for (PlayerHandler thisPlayer : loggedUsers) {
+                if (!thisPlayer.currentPlayerName.equals(currentPlayerName)) {
+                    returnNames.add(thisPlayer.currentPlayerName);
+                }
             }
             ps.println(returnNames);
         }
@@ -186,7 +189,7 @@ public class TicTacToeServer {
             try {
                 dis = new DataInputStream(S.getInputStream());
                 ps = new PrintStream(S.getOutputStream());
-
+                playerSocket = S;
                 start();
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -197,6 +200,7 @@ public class TicTacToeServer {
         public void run() {
             while (true) {
                 try {
+                    System.out.println(dis);
                     chatData = dis.readLine();
                     String switchable = chatData.split("\\.")[0];
 
@@ -207,16 +211,24 @@ public class TicTacToeServer {
                         case "si":
                             signInHandler(chatData);
                             break;
-                        case "startMatch":
-                            startMatch(chatData);
-                            break;
                         case "invite":
-                            invite(chatData);
+                            invitation(chatData);
                             break;
-
+                        case "names":
+                            sendNames(dbc.refreshQuery());
+                            break;
+                        case "exit":
+                            loggedUsers.remove(this);
+                            stop();
+                            break;
+                        case "reply":
+                            handleRequest(chatData.split("\\.")[1]);
+                            break;
                     }
                     // pass chatData to signup
                 } catch (IOException ex) {
+                    ex.printStackTrace();
+                } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
             }
@@ -224,8 +236,11 @@ public class TicTacToeServer {
 
         public void signUpHandler(String data) {
             String[] cleanedData = stripData(data);
-            if (dbc.Register(cleanedData[1], cleanedData[2], cleanedData[3])) {
+            if (dbc.Register(cleanedData[1], cleanedData[2])) {
                 ps.println("done");
+                this.currentPlayerName = cleanedData[1];
+                loggedUsers.add(this);
+//                System.out.println(loggedUsers);
             } else {
                 ps.println("failed");
             }
@@ -233,10 +248,23 @@ public class TicTacToeServer {
 
         private void signInHandler(String data) {
             String[] cleanedData = stripData(data);
-            String handle = dbc.signIn(cleanedData[1], cleanedData[2]);
+
+            if (loggedUsers.isEmpty()) {
+                handle = dbc.signIn(cleanedData[1], cleanedData[2]);
+            } else {
+                for (PlayerHandler pp : loggedUsers) {
+                    if (!pp.currentPlayerName.equals(cleanedData[1])) {
+                        handle = dbc.signIn(cleanedData[1], cleanedData[2]);
+                    } else {
+                        handle = "dublicated";
+                    }
+                }
+            }
             switch (handle) {
                 case "pass":
                     ps.println("pass");
+                    this.currentPlayerName = cleanedData[1];
+                    loggedUsers.add(this);
                     break;
                 case "wrongPass":
                     ps.println("wrongPass");
@@ -252,38 +280,65 @@ public class TicTacToeServer {
 
         private String[] stripData(String data) {
             String[] receivedData = data.split("\\.");
-            /*
-                LinkedHashMap<String, String> cleanedData = new LinkedHashMap<>();
-                for (int i = 1; i < receivedData.length; i++) {
-                    String[] arr = receivedData[i].split(",");
-                    cleanedData.put(receivedData[0], receivedData[1]);
-                }
-            */
             return receivedData;
         }
 
-        private void startMatch(String data) {
-            try {
-                String[] cleanedData = stripData(data);
-                String player1 = cleanedData[1];
-                String player2 = cleanedData[2];
-                // get each player socket and send it to the game.new player() constructor
-                Game game = new Game();
-                Game.Player playerX = game.new Player(serverHandler.accept(), 'X');
-                Game.Player playerO = game.new Player(serverHandler.accept(), 'O');
-                playerX.setOpponent(playerO);
-                playerO.setOpponent(playerX);
-                game.currentPlayer = playerX;
-                playerX.start();
-                playerO.start();
-            } catch (IOException ex) {
-                Logger.getLogger(TicTacToeServer.class.getName()).log(Level.SEVERE, null, ex);
+        private void invitation(String data) throws IOException {
+            String[] receivedData = data.split("\\.");
+            player1name = receivedData[1];
+            player2name = receivedData[2];
+            sendRequest(player1name, player2name);
+        }
+
+        private void sendRequest(String pn1, String pn2) {
+            for (PlayerHandler pp : loggedUsers) {
+                if (pp.currentPlayerName.equals(pn2)) {
+                    pp.ps.println("request");
+                }
             }
         }
 
-        private void invite(String data) {
-            String[] cleanedData = stripData(data);
-            // get players names and send invitation to destination player
+        private void handleRequest(String req) {
+            switch (req) {
+                case "ok":
+                    for (PlayerHandler pp : loggedUsers) {
+                        if (pp.currentPlayerName.equals(player1name)) {
+                            pp.ps.println("start");
+                        }
+                    }
+                    startMatch();
+                    break;
+                case "refused":
+                    ps.println("refused");
+                    System.out.println("refused");
+                    break;
+            }
+        }
+
+//        private void stopThisPlayer() {
+//
+//        }
+        private void startMatch() {
+            Game game = new Game();
+            Socket elZeftElSocket1 = null;
+            for (PlayerHandler pp : loggedUsers) {
+                if (pp.currentPlayerName.equals(player1name)) {
+                    elZeftElSocket1 = pp.playerSocket;
+                }
+            }
+            Game.Player playerX = game.new Player(elZeftElSocket1, 'X');
+            Socket elZeftElSocket2 = null;
+            for (PlayerHandler pp : loggedUsers) {
+                if (pp.currentPlayerName.equals(player2name)) {
+                    elZeftElSocket2 = pp.playerSocket;
+                }
+            }
+            Game.Player playerO = game.new Player(elZeftElSocket2, 'O');
+            playerX.setOpponent(playerO);
+            playerO.setOpponent(playerX);
+            game.currentPlayer = playerX;
+            playerX.start();
+            playerO.start();
         }
     }
 

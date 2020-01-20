@@ -18,6 +18,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import static xogame.XOGame.scene5;
@@ -58,24 +60,29 @@ public class ReplayUiController implements Initializable {
 
     @FXML
     private void replayCurrentGame(ActionEvent event) throws FileNotFoundException, IOException {
-        File openFile = new File("C:\\recordedGames\\" + recordsList.getSelectionModel().getSelectedItem() + ".txt");
-        BufferedReader br = new BufferedReader(new FileReader(openFile));
-        String st;
-        String[] arr = new String[2];
+        if(recordsList.getSelectionModel().getSelectedItem() != null){
+            File openFile = new File("C:\\recordedGames\\" + recordsList.getSelectionModel().getSelectedItem() + ".txt");
+            BufferedReader br = new BufferedReader(new FileReader(openFile));
+            String st;
+            String[] arr = new String[2];
 
-        arr = br.readLine().split(",");
-        rPlayer1 = arr[0];
-        rScore1 = arr[1];
-        arr = br.readLine().split(",");
-        rPlayer2 = arr[0];
-        rScore2 = arr[1];
-//        lhmReplay = new LinkedHashMap<>();
-        while ((st = br.readLine()) != null) {
-            lhmReplay.put(st.split(",")[0], st.split(",")[1]);
+            arr = br.readLine().split(",");
+            rPlayer1 = arr[0];
+            rScore1 = arr[1];
+            arr = br.readLine().split(",");
+            rPlayer2 = arr[0];
+            rScore2 = arr[1];
+    //        lhmReplay = new LinkedHashMap<>();
+            while ((st = br.readLine()) != null) {
+                lhmReplay.put(st.split(",")[0], st.split(",")[1]);
+            }
+            scene5 = new Scene(FXMLLoader.load(getClass().getResource("ReplayBoard.fxml")));
+            XOGame.window.setScene(XOGame.scene5);
+            XOGame.window.show();
+        } else{
+            Alert a = new Alert(Alert.AlertType.ERROR, "choose file to replay", ButtonType.CLOSE);
+            a.show();
         }
-        scene5 = new Scene(FXMLLoader.load(getClass().getResource("ReplayBoard.fxml")));
-        XOGame.window.setScene(XOGame.scene5);
-        XOGame.window.show();
     }
 
     @FXML
