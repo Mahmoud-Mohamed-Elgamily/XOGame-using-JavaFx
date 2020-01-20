@@ -77,7 +77,7 @@ public class Game {
                 output.println("WELCOME " + mark);
                 output.println("MESSAGE Waiting for opponent to connect");
             } catch (IOException e) {
-                System.out.println("Player died: " + e);
+                System.out.println("Player left: " + e);
             }
         }
 
