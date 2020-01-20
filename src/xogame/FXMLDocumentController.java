@@ -89,20 +89,13 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Button noBtn;
     MediaPlayer mediaPlayer;
-    
-    public  void setp1(String _p1,String _p2)
-    {  
-        Label a= (Label)XOGame.mystage.getScene().lookup("#P1");
-        Label b= (Label)XOGame.mystage.getScene().lookup("#P2");
-      a.setText(_p1);
-      b.setText(_p2);
-    } 
+
     public FXMLDocumentController() {
         this.XOCounter = 0;
         this.isFirstPlayerTurn = 1;
         this.isGameEnds = false;
     }
-    
+
     public void setBackGround() {
         btn0.setStyle("-fx-background-color:none;-fx-border-width: 2px;-fx-border-style: solid;-fx-border-color: lightgray;");
         btn1.setStyle("-fx-background-color:none;-fx-border-width: 2px;-fx-border-style: solid;-fx-border-color: lightgray;");
@@ -213,6 +206,8 @@ public class FXMLDocumentController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        P1.setText(playersnameBase.player1Label);
+        P2.setText(playersnameBase.player2Label);
         setBackGround();
     }
 

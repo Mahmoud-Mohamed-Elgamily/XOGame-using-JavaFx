@@ -1,12 +1,19 @@
 package xogame;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
+import static xogame.XOGame.scene;
+import static xogame.XOGame.scene3;
 
 public class playersnameBase extends AnchorPane {
 
@@ -15,6 +22,7 @@ public class playersnameBase extends AnchorPane {
     protected final TextField player1;
     protected final TextField player2;
     protected final Button button;
+    static String player1Label, player2Label;
 
     public playersnameBase() {
 
@@ -58,16 +66,24 @@ public class playersnameBase extends AnchorPane {
         button.setText("Ok");
         button.setTextFill(javafx.scene.paint.Color.valueOf("#eac387"));
         button.setFont(new Font("System Bold", 12.0));
-        
+
         button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if (player1.getText()!=""&&player2.getText()!="")
-                {
-                    FXMLDocumentController setplayersname=new FXMLDocumentController();
-                    System.err.println(player1.getText());
-                    System.err.println(player2.getText());
-                    setplayersname.setp1(player1.getText(), player2.getText());
+                if (player1.getText() != "" && player2.getText() != "") {
+//                    FXMLDocumentController setplayersname=new FXMLDocumentController();
+//                    System.err.println(player1.getText());
+//                    System.err.println(player2.getText());
+                    player1Label = player1.getText();
+                    player2Label = player2.getText();
+                    try {
+                        scene3 = new Scene(FXMLLoader.load(getClass().getResource("FXMLDocument.fxml")));
+                    } catch (IOException ex) {
+                        Logger.getLogger(playersnameBase.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    XOGame.stage1.close();
+                    XOGame.window.setScene(scene3);
+                    XOGame.window.show();
                 }
             }
         });

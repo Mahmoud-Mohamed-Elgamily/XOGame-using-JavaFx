@@ -28,7 +28,7 @@ import static xogame.ipBase.mySocket;
  */
 public class XOGame extends Application {
 
-    public static Stage window;
+    public static Stage window, stage1;
     public static Scene scene, scene2, scene3, scene4,scene5,scene6,scene7,scene8 , scene9;
     Parent root2;
     Start root;
@@ -50,11 +50,9 @@ public class XOGame extends Application {
         
         root = new Start(window);
         scene = new Scene(root);
-//        root2 = new singlehh(window);
         root2 = new Singlee();
         scene2 = new Scene(root2);
 
-        scene3 = new Scene(FXMLLoader.load(getClass().getResource("FXMLDocument.fxml")));
         scene4 = new Scene(FXMLLoader.load(getClass().getResource("ReplayUi.fxml")));
         scene6 =new Scene(FXMLLoader.load(getClass().getResource("SignInn.fxml")));
         
@@ -82,14 +80,14 @@ public class XOGame extends Application {
         root.multiuser.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                Stage stage; 
-                stage = new Stage();
-                stage.initModality(Modality.APPLICATION_MODAL);
-                
+                 
+                stage1 = new Stage();
+                stage1.initModality(Modality.APPLICATION_MODAL);
                 Scene _scene3 = new Scene(pn);
-                stage.setScene(_scene3);
-                stage.show();
-                mystage = stage;
+                stage1.setScene(_scene3);
+                stage1.show();
+                
+                
                 
     }});
         pn.button.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>(){
