@@ -238,6 +238,8 @@ public class XOGame extends Application {
                         }
                     }
 
+                case "":
+                    break;
                 default:
                     break;
             }

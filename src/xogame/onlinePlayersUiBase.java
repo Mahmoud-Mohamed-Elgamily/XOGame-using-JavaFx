@@ -83,9 +83,11 @@ public  class onlinePlayersUiBase extends AnchorPane {
     }
 
     protected  void requestGame(javafx.event.ActionEvent actionEvent){
+//        invite.me.op
+    }
+    void startMatch(){
         try {
             scene9 = new Scene(FXMLLoader.load(getClass().getResource("OnlinePlayersBoardUi.fxml")));
-            
             XOGame.window.setScene(scene9);
             XOGame.window.show();
         } catch (IOException ex) {
