@@ -8,6 +8,7 @@ package xogame;
 /*import client.FXMLDocumentBase;*/
 import java.io.IOException;
 import java.net.Socket;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
@@ -17,9 +18,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+import static xogame.SignInnController.ps;
+import static xogame.SignUpController.ps;
 import static xogame.ipBase.mySocket;
 
 /**
@@ -29,47 +34,49 @@ import static xogame.ipBase.mySocket;
 public class XOGame extends Application {
 
     public static Stage window, stage1;
-    public static Scene scene, scene2, scene3, scene4,scene5,scene6,scene7,scene8 , scene9;
+    public static Scene scene, scene2, scene3, scene4, scene5, scene6, scene7, scene8, scene9, scene10;
     Parent root2;
     Start root;
-    
-    playersnameBase pn; 
+    static onlinePlayersUiBase opb;
+    static Vector<String> playersNames = new Vector<>();
+    playersnameBase pn;
 
     public static Stage mystage;
 
-   @FXML
+    @FXML
     private void goToHome(ActionEvent event) {
         window.setScene(scene);
-       window.show();
+        window.show();
     }
 
     @Override
     public void start(Stage stage) throws Exception {
         window = stage;
-        pn=new playersnameBase();
-        
+        pn = new playersnameBase();
+        opb = new onlinePlayersUiBase();
         root = new Start(window);
         scene = new Scene(root);
         root2 = new Singlee();
         scene2 = new Scene(root2);
-
+        scene10 = new Scene(opb);
         scene4 = new Scene(FXMLLoader.load(getClass().getResource("ReplayUi.fxml")));
-        scene6 =new Scene(FXMLLoader.load(getClass().getResource("SignInn.fxml")));
-        
-        scene8=new Scene(FXMLLoader.load(getClass().getResource("SignInOrUp.fxml")));
+        // scene6 = new Scene(FXMLLoader.load(getClass().getResource("SignInn.fxml")));
 
-        stage.setScene(scene);
-        stage.show();
+        scene8 = new Scene(FXMLLoader.load(getClass().getResource("SignInOrUp.fxml")));
+//        scene10 = new Scene(FXMLLoader.load(getClass().getResource("onlinePlayersUi.fxml")));
+        scene9 = new Scene(FXMLLoader.load(getClass().getResource("onlineBoardUi.fxml")));
+        window.setScene(scene);
+        window.show();
 
         root.singleuser.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                stage.setScene(scene2);
-                stage.show();
+                window.setScene(scene2);
+                window.show();
 
             }
         });
-        
+
         root.replay.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -80,59 +87,84 @@ public class XOGame extends Application {
         root.multiuser.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                 
+
                 stage1 = new Stage();
                 stage1.initModality(Modality.APPLICATION_MODAL);
                 Scene _scene3 = new Scene(pn);
                 stage1.setScene(_scene3);
                 stage1.show();
-                
-                
-                
-    }});
-        pn.button.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>(){
-             @Override
-             public void handle(MouseEvent event) {
-                stage.setScene(scene3);
-              
-                  
-                stage.show(); //To change body of generated methods, choose Tools | Templates.
-             
-         
-         }});
+
+            }
+        });
+        pn.button.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                window.setScene(scene3);
+
+                window.show(); //To change body of generated methods, choose Tools | Templates.
+
+            }
+        });
         root.multiuser1.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                Stage stage=new Stage();
+                Stage stage = new Stage();
                 stage.initModality(Modality.APPLICATION_MODAL);
-                ipBase ip=new ipBase();
-                Scene _scene3=new Scene(ip);
+                ipBase ip = new ipBase();
+                Scene _scene3 = new Scene(ip);
                 stage.setScene(_scene3);
                 stage.show();
                 ip.button.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {
-                       if (ip.validate(ip.textField.getText()))
-                        {
-       
-                   
-                           try {
-                               ip.mySocket = new Socket(ip.textField.getText(), 5005);                              
+                        if (ip.validate(ip.textField.getText())) {
+
+                            try {
+                                ip.mySocket = new Socket(ip.textField.getText(), 3786);
+                                new Clienthandler(mySocket);
+
                                 stage.setScene(scene8);
-                               stage.show();
-                               scene7 =new Scene(FXMLLoader.load(getClass().getResource("SignUp.fxml")));
-                               mystage = stage;
-                           } catch (IOException ex) {
-                               Logger.getLogger(XOGame.class.getName()).log(Level.SEVERE, null, ex);
-                           }
+                                stage.show();
+                                mystage = stage;
+                                scene7 = new Scene(FXMLLoader.load(getClass().getResource("SignUp.fxml")));
+                                scene6 = new Scene(FXMLLoader.load(getClass().getResource("SignInn.fxml")));
+
+                                mystage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                                    @Override
+                                    public void handle(WindowEvent event) {
+
+                                        SignUpController.ps.println("exit.");
+
+                                    }
+                                });
+
+                                window.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                                    @Override
+                                    public void handle(WindowEvent event) {
+                                        try {
+                                            // if(!SignUpController.Soso.equals(null))
+                                            SignInnController.ps.println("exit.");
+                                            Clienthandler.th.stop();
+                                            ip.mySocket.close();
+                                        } catch (IOException ex) {
+                                            Logger.getLogger(XOGame.class.getName()).log(Level.SEVERE, null, ex);
+                                        }
+
+                                    }
+                                });
+
+                            } catch (IOException ex) {
+                                Logger.getLogger(XOGame.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
                     }
-                        }});
-        
+                });
+
                 //scene
-            }});
-        
+            }
+        });
+
     }
-         
 
     /**
      * @param args the command line arguments
@@ -142,17 +174,73 @@ public class XOGame extends Application {
     }
 
     static void bth() {
-        window.setScene(XOGame.scene);
+        window.setScene(scene);
         window.show();
     }
+
     static void SignU() {
-        
+
         mystage.setScene(scene7);
         mystage.show();
     }
+
     static void SignI() {
-        
+
         mystage.setScene(scene6);
         mystage.show();
     }
-  }
+
+    static void Check() {
+
+        if (Clienthandler.msg != null) {
+            String message = Clienthandler.msg;
+            System.out.println(message);
+            switch (message.split("\\.")[0]) {
+
+                case "done":
+                case "pass":
+                    System.out.println("123");
+
+                    //scene10 = new Scene(FXMLLoader.load(getClass().getResource("onlinePlayersUi.fxml")));
+                    window.setScene(XOGame.scene10);
+                    mystage.close();
+                    window.show();
+
+                    break;
+                case "dublicated": {
+                    System.out.println("1");
+                    Alert alert = new Alert(Alert.AlertType.WARNING, "dublicated login!!");
+                    alert.show();
+                    break;
+                }
+                case "wrongPass": {
+                    Alert alert = new Alert(Alert.AlertType.WARNING, "wrongPass!!");
+                    alert.show();
+                    break;
+                }
+                case "wrongName": {
+                    Alert alert = new Alert(Alert.AlertType.WARNING, "wrongName!!");
+                    alert.show();
+                    break;
+                }
+                case "names":
+                    System.out.println("here");
+//                    
+//                    mystage.setScene(scene10);
+//                    mystage.show();
+                    for (String mssg : message.split("\\.")) {
+                        if (!mssg.equals("names")) {
+                            System.out.println(mssg);
+                            if (!playersNames.contains(mssg)) {
+                                playersNames.add(mssg);
+                                opb.nameLView.getItems().add(mssg);
+                            }
+                        }
+                    }
+
+                default:
+                    break;
+            }
+        }
+    }
+}

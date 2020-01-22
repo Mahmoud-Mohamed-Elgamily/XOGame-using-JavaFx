@@ -6,8 +6,11 @@
 package xogame;
 
 import java.io.IOException;
+import java.io.PrintStream;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -25,17 +28,18 @@ import static xogame.XOGame.scene9;
 public class OnlinePlayersUiController implements Initializable {
 
     @FXML
-    private ListView<?> nameLView;
+    public static ListView<String> nameLView;
     @FXML
-    private ListView<?> scoreLView;
+    public static ListView<String> scoreLView;
+//    PrintStream ps;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
+        nameLView.getItems().add("hello");
+    }
 
     @FXML
     private void requestGame(ActionEvent event) throws IOException {
@@ -50,5 +54,16 @@ public class OnlinePlayersUiController implements Initializable {
     private void takeMeHome(ActionEvent event) {
         XOGame.bth();
     }
-    
+
+    @FXML
+    private void refreshOnlinePlayers(ActionEvent event) {
+        SignInnController.ps.println("names.");
+        try {
+            Thread.sleep(300);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(OnlinePlayersUiController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        XOGame.Check();
+    }
+
 }

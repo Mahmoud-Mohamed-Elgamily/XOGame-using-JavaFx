@@ -182,9 +182,11 @@ public class TicTacToeServer {
                     returnNames.add(thisPlayer.currentPlayerName);
                 }
             }
-            ps.println(returnNames);
+            for(String player :returnNames )
+            {
+                ps.println("pl"+player);
+            }
         }
-
         public PlayerHandler(Socket S) {
             try {
                 dis = new DataInputStream(S.getInputStream());

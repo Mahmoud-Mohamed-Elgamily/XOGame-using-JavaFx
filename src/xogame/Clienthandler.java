@@ -7,51 +7,54 @@ package xogame;
 
 import java.io.DataInputStream;
 import java.io.IOException;
-import java.io.PrintStream;
+import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.text.TextFlow;
 
 /**
  *
  * @author Alaa
  */
-public class Clienthandler implements Runnable{
-    
-    DataInputStream dis ;
-   
+public class Clienthandler implements Runnable {
+
+    DataInputStream ois;
+    ObjectInputStream ob;
+    static String msg;
     Socket mySocket;
-    Thread th;
-    public Clienthandler(Socket _mySocket ){
-      
-      mySocket=_mySocket;
-       
+    static Thread th;
+
+    public Clienthandler(Socket _mySocket) {
+
+        mySocket = _mySocket;
+        th = new Thread(this);
+        th.start();
+
     }
-        
-    public void read()
-    {Thread th= new Thread(this);
-      th.start();}
-    
+
     @Override
-      public void run(){
-        
+    public void run() {
+
         try {
-            
-            dis = new DataInputStream(mySocket.getInputStream());
-            
-            while(true)
-            {
-                String msg = dis.readLine();
+
+            ois = new DataInputStream(mySocket.getInputStream());
+
+            while (true) {
+
+                msg = ois.readLine();
+                System.out.println(msg);
+//                Thread.sleep(1000);
+               
+                
             }
-            
+
         } catch (IOException ex) {
             Logger.getLogger(Clienthandler.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
- }
-    
+        } 
+//        catch (InterruptedException ex) {
+//            Logger.getLogger(Clienthandler.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+
+    }
+
 }

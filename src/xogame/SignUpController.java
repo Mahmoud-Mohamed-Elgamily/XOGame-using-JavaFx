@@ -14,12 +14,15 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 /**
  * FXML Controller class
@@ -36,6 +39,8 @@ public class SignUpController implements Initializable {
     private Button ssign;
     @FXML
     private Button back;
+    Stage sosa,window;
+    static String name;
 
     /**
      * Initializes the controller class.
@@ -43,18 +48,25 @@ public class SignUpController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
-
-   Socket Soso;
-    PrintStream ps;
-    public SignUpController ()
-    {
-        Soso=ipBase.mySocket;
     }
-   
-   
-              
-  /*  public boolean passwordvalidation() {
+
+    static Socket Soso;
+    static PrintStream ps;
+
+    public SignUpController() {
+        try {
+            sosa = XOGame.mystage;
+            Soso = ipBase.mySocket;
+            window=XOGame.window;
+            ps = new PrintStream(Soso.getOutputStream());
+            
+            
+        } catch (IOException ex) {
+            Logger.getLogger(SignUpController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /*  public boolean passwordvalidation() {
     
       
       String pattern = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}";
@@ -66,34 +78,43 @@ public class SignUpController implements Initializable {
        return username.getText().matches(pattern);
     
     }*/
-       
-    
-
     @FXML
     private void Back(ActionEvent event) {
+        XOGame.bth();
+        sosa.close();
     }
+
     @FXML
     private void signup(ActionEvent event) {
-    //    if(passwordvalidation()&&usernamevalidation())
-           //     {
-                try {
-                       ps = new PrintStream(Soso.getOutputStream());
-                    } catch (IOException ex) {
-                        Logger.getLogger(SignUpController.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    ps.println("su"+"."+username.getText()+"."+password.getText());
-             //   }
-            //    else
-             /*   {
+        //    if(passwordvalidation()&&usernamevalidation())
+        //     {
+       name=username.getText(); 
+        ps.println("su" + "." + username.getText() + "." + password.getText());
+        sosa.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                ps.println("exit.");
+            }
+        });
+        
+        window.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+               // if(!SignUpController.Soso.equals(null))
+                    ps.println("exit.");
+            }
+        });
+        
+        //   }
+        //    else
+        /*   {
                     Alert alert = new Alert(Alert.AlertType.WARNING, "Invalid username or password!!");
                     Optional<ButtonType> response=alert.showAndWait();
                 }
-*/
-                username.clear();
-                password.clear();
-        
+         */
+        username.clear();
+        password.clear();
+
     }
 
-   
-    
 }
