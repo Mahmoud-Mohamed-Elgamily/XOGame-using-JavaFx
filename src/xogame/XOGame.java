@@ -256,6 +256,8 @@ public class XOGame extends Application {
                 case "start":
                     window.setScene(scene9);
                     window.show();
+//                case "":
+
                     break;
                 default:
                     break;

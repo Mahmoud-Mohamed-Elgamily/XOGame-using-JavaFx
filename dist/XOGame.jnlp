@@ -8,7 +8,11 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+<<<<<<< HEAD
     <jar href="XOGame.jar" size="3267399" download="eager" />
+=======
+    <jar href="XOGame.jar" size="3266804" download="eager" />
+>>>>>>> cda8a4376c6ce44a48d77cfc0c418472358647b5
   </resources>
   <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="XOGame" >
     <param name="requiredFXVersion" value="8.0+"/>
