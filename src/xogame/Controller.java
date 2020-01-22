@@ -5,11 +5,17 @@
  */
 package xogame;
 
+import java.io.File;
 import java.util.Random;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 
 /**
  *
@@ -24,18 +30,26 @@ public class Controller {
     Label scorex;
     Label scoreo;
     public String win;
+    MediaPlayer mediaPlayer;
+    protected final BorderPane borderPane;
+    public MediaView mediaView;
+    public DialogPane PopUpPane;
 
     // singlehh l=new singlehh();
     //ActionEvent event=new ActionEvent();
     Button clickedbutton;
-    int counter;
+    int counter=0;
     Button[] buttons;
     int numx,numo;
 
-    public Controller(Button[] _buttons, Label x, Label o) {
+    Controller(Button[] _buttons, Label x, Label o,DialogPane _PopUpPane,MediaView _mediaView, BorderPane _borderPane) {
         buttons = _buttons;
         scorex = x;
         scoreo = o;
+        PopUpPane=_PopUpPane;
+        mediaView=_mediaView;
+        borderPane=_borderPane;
+
 
         for (i = 0; i < 9; i++) {
             buttons[i].setOnMouseClicked(new clicked());
@@ -118,9 +132,15 @@ public class Controller {
         if (win == "X") {
             numx++;
             scorex.setText(Integer.toString(numx));
-        } else {
+            popVideo();
+        } else if(win=="O") {
             numo++;
             scoreo.setText(Integer.toString(numo));
+            popVideoloser();
+         
+        }
+        else{
+            popVideoDraw();
         }
 
     }
@@ -132,8 +152,9 @@ public class Controller {
             if (getwinner() == false&&clicked.getText()=="") {
                 clicked.setText("X");
                 flageplayer = false;
+                counter++;
                 play();
-                //clicked.setDisable(true);
+                
                 if (getwinner())
                 {whowin();}
             }
@@ -141,5 +162,33 @@ public class Controller {
             
         }
         //To change body of generated methods, choose Tools | Templates.
+    }
+    public void popVideoloser() {
+        PopUpPane.setVisible(true);
+        String path = "E:\\loser.mp4";
+        borderPane.setVisible(false);
+        Media media = new Media(new File(path).toURI().toString());
+        mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.setAutoPlay(true);
+        mediaView.setMediaPlayer(mediaPlayer);
+    }
+     public void popVideoDraw() {
+        PopUpPane.setVisible(true);
+        String path = "E:\\facepalm.mp4";
+        borderPane.setVisible(false);
+        Media media = new Media(new File(path).toURI().toString());
+        mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.setAutoPlay(true);
+        mediaView.setMediaPlayer(mediaPlayer);
+    }
+         private void popVideo() {
+       PopUpPane.setVisible(true);
+        borderPane.setVisible(false);
+        String path = "E:\\videoplayback.mp4";
+
+        Media media = new Media(new File(path).toURI().toString());
+        mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.setAutoPlay(true);
+        mediaView.setMediaPlayer(mediaPlayer);
     }
 }

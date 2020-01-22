@@ -1,5 +1,6 @@
 package xogame;
 
+import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
@@ -10,6 +11,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import static javafx.scene.layout.Region.USE_PREF_SIZE;
+import javafx.scene.media.MediaView;
 import javafx.scene.text.Font;
 
 public class Singlee extends AnchorPane {
@@ -37,6 +40,11 @@ public class Singlee extends AnchorPane {
     protected final ImageView imageView4;
     protected final Button Buttons[]=new Button[9];
     protected final Pane pane2;
+    protected final MediaView mediaView;
+    
+    protected final Button yesBtn;
+    protected final Button noBtn;
+    
 
     public Singlee() {
 
@@ -71,6 +79,9 @@ public class Singlee extends AnchorPane {
         Buttons[1] = new Button();
         Buttons[2] = new Button();
         pane2 = new Pane();
+        mediaView = new MediaView();
+        yesBtn = new Button();
+        noBtn = new Button();
 
         setMaxHeight(USE_PREF_SIZE);
         setMaxWidth(USE_PREF_SIZE);
@@ -172,13 +183,15 @@ public class Singlee extends AnchorPane {
         pane1.setPrefHeight(236.0);
         pane1.setPrefWidth(378.0);
 
-        PopUpPane.setLayoutX(-85.0);
-        PopUpPane.setLayoutY(-37.0);
+        
+        PopUpPane.setLayoutX(90.0);
+        PopUpPane.setLayoutY(30.0);
         PopUpPane.setMinHeight(USE_PREF_SIZE);
         PopUpPane.setMinWidth(USE_PREF_SIZE);
-        PopUpPane.setPrefHeight(358.0);
-        PopUpPane.setPrefWidth(574.0);
+        PopUpPane.setPrefHeight(350.0);
+        PopUpPane.setPrefWidth(430.0);
         PopUpPane.setVisible(false);
+        PopUpPane.setDisable(true);
 
         anchorPane0.setLayoutX(47.0);
         anchorPane0.setLayoutY(-6.0);
@@ -206,9 +219,23 @@ public class Singlee extends AnchorPane {
 
         imageView4.setFitHeight(112.0);
         imageView4.setFitWidth(311.0);
-        imageView4.setLayoutY(98.0);
+        imageView4.setLayoutY(90.0);
         imageView4.setPickOnBounds(true);
         imageView4.setImage(new Image(getClass().getResource("/img/kl.png").toExternalForm()));
+        
+        yesBtn.setLayoutX(20.0);
+        yesBtn.setLayoutY(450.0);
+        yesBtn.setMnemonicParsing(false);
+        
+        yesBtn.setText("Yes");
+        yesBtn.setFont(new Font(18.0));
+
+        noBtn.setLayoutX(420.0);
+        noBtn.setLayoutY(450.0);
+        noBtn.setMnemonicParsing(false);
+       
+        noBtn.setText("No");
+        noBtn.setFont(new Font(18.0));
 
         Buttons[0].setLayoutX(2.0);
         Buttons[0].setLayoutY(1.0);
@@ -296,6 +323,18 @@ public class Singlee extends AnchorPane {
         pane2.setPrefHeight(236.0);
         pane2.setPrefWidth(114.0);
         borderPane.setLeft(pane2);
+        
+        this.setLeftAnchor(mediaView, 91.0);
+        this.setRightAnchor(mediaView, 80.0);
+        this.setTopAnchor(mediaView, 80.0);
+        mediaView.setFitHeight(300.0);
+        mediaView.setFitWidth(430.0);
+        mediaView.setLayoutX(0.0);
+        mediaView.setLayoutY(0.0);
+        mediaView.setPreserveRatio(false);
+        mediaView.setCursor(Cursor.DEFAULT);
+
+        
 
         
         getChildren().add(imageView);
@@ -322,7 +361,12 @@ public class Singlee extends AnchorPane {
         anchorPane0.getChildren().add(Buttons[1]);
         anchorPane0.getChildren().add(Buttons[2]);
         pane1.getChildren().add(anchorPane0);
+        PopUpPane.getChildren().add(yesBtn);
+        PopUpPane.getChildren().add(noBtn);
+        getChildren().add(PopUpPane);
+        PopUpPane.getChildren().add(mediaView);
         getChildren().add(borderPane);
-        new Controller(Buttons,scorex,scoreo);
+        
+        new Controller(Buttons,scorex,scoreo,PopUpPane,mediaView,borderPane);
     }
 }
