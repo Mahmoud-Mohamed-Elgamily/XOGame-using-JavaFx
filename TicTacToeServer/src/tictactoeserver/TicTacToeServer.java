@@ -41,17 +41,16 @@ class DataBaseConnection {
         }
     }
 
-    protected ResultSet refreshQuery() {
-        try {
-            stmt = conn.prepareStatement("select * from player");
-            rs = stmt.executeQuery();
-            return rs;
-        } catch (SQLException ex) {
-            Logger.getLogger(DataBaseConnection.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-
+//    protected ResultSet refreshQuery() {
+//        try {
+//            stmt = conn.prepareStatement("select * from player");
+//            rs = stmt.executeQuery();
+//            return rs;
+//        } catch (SQLException ex) {
+//            Logger.getLogger(DataBaseConnection.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        return null;
+//    }
     protected boolean Register(String userName, String password) {
         try {
             stmt = conn.prepareStatement("insert into player(user_name,pass) values(? ,?)");
@@ -76,6 +75,20 @@ class DataBaseConnection {
         }
     }
 
+    protected String getScore(String name) {
+        try {
+            stmt = conn.prepareStatement("select win_score from player where user_name=?");
+            stmt.setString(1, name);
+            ResultSet signRs;
+            signRs = stmt.executeQuery();
+            signRs.next();
+            return signRs.getString(1);
+        } catch (SQLException ex) {
+            Logger.getLogger(DataBaseConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
     protected String signIn(String name, String password) {
         try {
             stmt = conn.prepareStatement("select * from player where user_name=?");
@@ -91,7 +104,6 @@ class DataBaseConnection {
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
-//            return "dublicated";
         }
         return "wrongName";
     }
@@ -100,7 +112,7 @@ class DataBaseConnection {
 public class TicTacToeServer {
 
     static DataBaseConnection dbc;
-    static ResultSet innerRs;
+//    static ResultSet innerRs;
     static ServerSocket serverHandler;
     Socket playerHandler;
 
@@ -140,7 +152,7 @@ public class TicTacToeServer {
 
     public static void main(String[] args) {
         dbc = new DataBaseConnection();
-        innerRs = dbc.refreshQuery();
+//        innerRs = dbc.refreshQuery();
         try {
             serverHandler = new ServerSocket(3786);
             System.out.printf("Server is running on ip ");
@@ -171,21 +183,24 @@ public class TicTacToeServer {
         String chatData = "";
         static Vector<PlayerHandler> loggedUsers = new Vector<>();
         static Vector<String> returnNames;
+        static LinkedHashMap<String, String> returnData;
         static String player1name, player2name;
         Socket playerSocket;
-        String currentPlayerName, handle;
+        String currentPlayerName, currentPlayerScore, handle;
 
-        private void sendNames(ResultSet rs) throws SQLException {
-            returnNames = new Vector<>();
+        private void sendNames() throws SQLException {
+//            returnNames = new Vector<>();
+//            returnData = new LinkedHashMap<>();
+            String returnNames="names.";
             for (PlayerHandler thisPlayer : loggedUsers) {
                 if (!thisPlayer.currentPlayerName.equals(currentPlayerName)) {
-                    returnNames.add(thisPlayer.currentPlayerName);
+                    returnNames +=thisPlayer.currentPlayerName+".";
+//                    returnNames.add(thisPlayer.currentPlayerName);
+//                    returnData.put(thisPlayer.currentPlayerName, thisPlayer.currentPlayerScore);
                 }
             }
-            for(String player :returnNames )
-            {
-                ps.println("pl"+player);
-            }
+
+            ps.println(returnNames);
         }
         public PlayerHandler(Socket S) {
             try {
@@ -202,8 +217,8 @@ public class TicTacToeServer {
         public void run() {
             while (true) {
                 try {
-                    System.out.println(dis);
                     chatData = dis.readLine();
+                    System.out.println(chatData);
                     String switchable = chatData.split("\\.")[0];
 
                     switch (switchable) {
@@ -217,7 +232,7 @@ public class TicTacToeServer {
                             invitation(chatData);
                             break;
                         case "names":
-                            sendNames(dbc.refreshQuery());
+                            sendNames();
                             break;
                         case "exit":
                             loggedUsers.remove(this);
@@ -227,7 +242,6 @@ public class TicTacToeServer {
                             handleRequest(chatData.split("\\.")[1]);
                             break;
                     }
-                    // pass chatData to signup
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 } catch (SQLException ex) {
@@ -238,46 +252,68 @@ public class TicTacToeServer {
 
         public void signUpHandler(String data) {
             String[] cleanedData = stripData(data);
-            if (dbc.Register(cleanedData[1], cleanedData[2])) {
-                ps.println("done");
-                this.currentPlayerName = cleanedData[1];
-                loggedUsers.add(this);
-//                System.out.println(loggedUsers);
-            } else {
-                ps.println("failed");
-            }
+            try {
+                if (dbc.Register(cleanedData[1], cleanedData[2])) {
+                    ps.println("done.");
+                    this.currentPlayerName = cleanedData[1];
+                    this.currentPlayerScore = dbc.getScore(this.currentPlayerName);
+                    loggedUsers.add(this);
+//                    Thread.sleep(100);
+//                    sendNames();
+                } else {
+                    ps.println("failed.");
+                }
+            } catch (ArrayIndexOutOfBoundsException AI) {
+                ps.println("wrongName.");
+            } 
+//            catch (SQLException ex) {
+//                Logger.getLogger(TicTacToeServer.class.getName()).log(Level.SEVERE, null, ex);
+//            } catch (InterruptedException ex) {
+//                Logger.getLogger(TicTacToeServer.class.getName()).log(Level.SEVERE, null, ex);
+//            }
         }
 
         private void signInHandler(String data) {
             String[] cleanedData = stripData(data);
-
-            if (loggedUsers.isEmpty()) {
-                handle = dbc.signIn(cleanedData[1], cleanedData[2]);
-            } else {
-                for (PlayerHandler pp : loggedUsers) {
-                    if (!pp.currentPlayerName.equals(cleanedData[1])) {
-                        handle = dbc.signIn(cleanedData[1], cleanedData[2]);
-                    } else {
-                        handle = "dublicated";
+            try {
+                if (loggedUsers.isEmpty()) {
+                    handle = dbc.signIn(cleanedData[1], cleanedData[2]);
+                } else {
+                    for (PlayerHandler pp : loggedUsers) {
+                        if (!pp.currentPlayerName.equals(cleanedData[1])) {
+                            handle = dbc.signIn(cleanedData[1], cleanedData[2]);
+                        } else {
+                            handle = "dublicated";
+                        }
                     }
                 }
-            }
-            switch (handle) {
-                case "pass":
-                    ps.println("pass");
-                    this.currentPlayerName = cleanedData[1];
-                    loggedUsers.add(this);
-                    break;
-                case "wrongPass":
-                    ps.println("wrongPass");
-                    break;
-                case "dublicated":
-                    ps.println("dublicated");
-                    break;
-                case "wrongName":
-                    ps.println("wrongName");
-                    break;
-            }
+                switch (handle) {
+                    case "pass":
+                        ps.println("pass.");
+                        this.currentPlayerName = cleanedData[1];
+                        this.currentPlayerScore = dbc.getScore(this.currentPlayerName);
+                        loggedUsers.add(this);
+//                        Thread.sleep(100);
+//                        sendNames();
+                        break;
+                    case "wrongPass":
+                        ps.println("wrongPass.");
+                        break;
+                    case "dublicated":
+                        ps.println("dublicated.");
+                        break;
+                    case "wrongName":
+                        ps.println("wrongName.");
+                        break;
+                }
+            } catch (ArrayIndexOutOfBoundsException AI) {
+                ps.println("wrongName.");
+            } 
+//            catch (SQLException ex) {
+//                Logger.getLogger(TicTacToeServer.class.getName()).log(Level.SEVERE, null, ex);
+//            } catch (InterruptedException ex) {
+//                Logger.getLogger(TicTacToeServer.class.getName()).log(Level.SEVERE, null, ex);
+//            }
         }
 
         private String[] stripData(String data) {
@@ -295,7 +331,7 @@ public class TicTacToeServer {
         private void sendRequest(String pn1, String pn2) {
             for (PlayerHandler pp : loggedUsers) {
                 if (pp.currentPlayerName.equals(pn2)) {
-                    pp.ps.println("request");
+                    pp.ps.println("request.");
                 }
             }
         }
@@ -305,14 +341,13 @@ public class TicTacToeServer {
                 case "ok":
                     for (PlayerHandler pp : loggedUsers) {
                         if (pp.currentPlayerName.equals(player1name)) {
-                            pp.ps.println("start");
+                            pp.ps.println("start.");
                         }
                     }
                     startMatch();
                     break;
                 case "refused":
-                    ps.println("refused");
-                    System.out.println("refused");
+                    ps.println("refused.");
                     break;
             }
         }

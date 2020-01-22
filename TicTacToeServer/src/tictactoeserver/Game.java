@@ -74,8 +74,8 @@ public class Game {
             try {
                 input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 output = new PrintWriter(socket.getOutputStream(), true);
-                output.println("WELCOME " + mark);
-                output.println("MESSAGE Waiting for opponent to connect");
+//                output.println("WELCOME " + mark);
+//                output.println("MESSAGE Waiting for opponent to connect");
             } catch (IOException e) {
                 System.out.println("Player left: " + e);
             }
@@ -95,11 +95,12 @@ public class Game {
         public void run() {
             try {
                 // The thread is only started after everyone connects.
-                output.println("MESSAGE All players connected");
+//                output.println("MESSAGE All players connected");
 
                 // Tell the first player that it is his/her turn.
                 if (mark == 'X') {
-                    output.println("MESSAGE Your move");
+//                    output.println("MESSAGE Your move");
+                    output.println("You.move");
                 }
 
                 // Repeatedly get commands from the client and process them.
