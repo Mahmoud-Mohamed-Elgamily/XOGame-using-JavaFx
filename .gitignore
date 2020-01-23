@@ -2,3 +2,4 @@ dist
 build/classes/xogame
 build/built-jar.properties
 /TicTacToeServer/build/
+/TicTacToeServer/nbproject/private/
