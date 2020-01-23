@@ -8,6 +8,7 @@ package xogame;
 /*import client.FXMLDocumentBase;*/
 import java.io.IOException;
 import java.net.Socket;
+import java.util.Optional;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,6 +20,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -40,6 +42,7 @@ public class XOGame extends Application {
     static onlinePlayersUiBase opb;
     static Vector<String> playersNames = new Vector<>();
     playersnameBase pn;
+    static String name;
 
     public static Stage mystage;
 
@@ -51,6 +54,7 @@ public class XOGame extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+//        stage.setResizable(false);
         window = stage;
         pn = new playersnameBase();
         opb = new onlinePlayersUiBase();
@@ -200,7 +204,7 @@ public class XOGame extends Application {
                 case "done":
                 case "pass":
                     System.out.println("123");
-
+                    name = message.split("\\.")[1];
                     //scene10 = new Scene(FXMLLoader.load(getClass().getResource("onlinePlayersUi.fxml")));
                     window.setScene(XOGame.scene10);
                     mystage.close();
@@ -225,9 +229,6 @@ public class XOGame extends Application {
                 }
                 case "names":
                     System.out.println("here");
-//                    
-//                    mystage.setScene(scene10);
-//                    mystage.show();
                     for (String mssg : message.split("\\.")) {
                         if (!mssg.equals("names")) {
                             System.out.println(mssg);
@@ -238,6 +239,26 @@ public class XOGame extends Application {
                         }
                     }
 
+                case "request":
+                    ButtonType buttonTypeOk = new ButtonType("OK");
+                    ButtonType buttonTypeNo = new ButtonType("NO");
+                    Alert a = new Alert(Alert.AlertType.CONFIRMATION,
+                            message.split("\\.")[1] + " wants to play with you?");
+                    a.getButtonTypes().setAll(buttonTypeOk, buttonTypeNo);
+                    Optional<ButtonType> result = a.showAndWait();
+                    if (result.get() == buttonTypeOk) {
+                        SignInnController.ps.println("reply.ok");
+                        a.close();
+                    } else if (result.get() == buttonTypeNo) {
+                        SignInnController.ps.println("reply.refused");
+                        a.close();
+                    }
+                case "start":
+                    window.setScene(scene9);
+                    window.show();
+//                case "":
+
+                    break;
                 default:
                     break;
             }

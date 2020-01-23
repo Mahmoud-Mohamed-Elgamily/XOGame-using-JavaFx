@@ -15,7 +15,7 @@ import javafx.scene.layout.AnchorPane;
 import static xogame.XOGame.scene;
 import static xogame.XOGame.scene9;
 
-public  class onlinePlayersUiBase extends AnchorPane {
+public class onlinePlayersUiBase extends AnchorPane {
 
     protected final ListView nameLView;
     protected final Button button;
@@ -91,11 +91,14 @@ public  class onlinePlayersUiBase extends AnchorPane {
 
     }
 
-    protected  void requestGame(javafx.event.ActionEvent actionEvent){
+    protected void requestGame(javafx.event.ActionEvent actionEvent) {
+        SignInnController.ps.println("invite."+XOGame.name+"."+nameLView.getSelectionModel().getSelectedItem().toString());
+//        invite.me.op
+    }
+    void startMatch(){
         try {
             
             scene9 = new Scene(FXMLLoader.load(getClass().getResource("OnlinePlayersBoardUi.fxml")));
-            
             XOGame.window.setScene(scene9);
             XOGame.window.show();
         } catch (IOException ex) {
@@ -103,16 +106,18 @@ public  class onlinePlayersUiBase extends AnchorPane {
         }
     }
 
-    protected  void takeMeHome(javafx.event.ActionEvent actionEvent)
-    {  XOGame.bth();}
+    protected void takeMeHome(javafx.event.ActionEvent actionEvent) {
+        XOGame.bth();
+    }
 
-    protected  void refreshOnlinePlayers(javafx.event.ActionEvent actionEvent){
+    protected void refreshOnlinePlayers(javafx.event.ActionEvent actionEvent) {
         SignInnController.ps.println("names.");
         try {
             Thread.sleep(300);
         } catch (InterruptedException ex) {
             Logger.getLogger(OnlinePlayersUiController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        XOGame.Check();}
+        XOGame.Check();
+    }
 
 }

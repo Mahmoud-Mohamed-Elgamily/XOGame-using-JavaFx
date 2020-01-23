@@ -37,7 +37,6 @@ public class SignInnController implements Initializable {
     @FXML
     private Button back;
     Stage sosa, window;
-    static  String name;
 
     /**
      * Initializes the controller class.
@@ -55,7 +54,7 @@ public class SignInnController implements Initializable {
             sosa = XOGame.mystage;
             Soso = ipBase.mySocket;
             window = XOGame.window;
-            name="";
+//            name="";
             ps = new PrintStream(Soso.getOutputStream());
 
         } catch (IOException ex) {
@@ -65,7 +64,7 @@ public class SignInnController implements Initializable {
 
     @FXML
     private void login(ActionEvent event) {
-        name=username.getText();
+//        name=username.getText();
         ps.println("si" + "." + username.getText() + "." + password.getText());
         try {
             Thread.sleep(1000);

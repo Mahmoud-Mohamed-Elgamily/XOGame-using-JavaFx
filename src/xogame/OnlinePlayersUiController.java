@@ -38,7 +38,7 @@ public class OnlinePlayersUiController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        nameLView.getItems().add("hello");
+//        nameLView.getItems().add("hello");
     }
 
     @FXML

@@ -40,7 +40,6 @@ public class SignUpController implements Initializable {
     @FXML
     private Button back;
     Stage sosa,window;
-    static String name;
 
     /**
      * Initializes the controller class.
@@ -59,7 +58,7 @@ public class SignUpController implements Initializable {
             Soso = ipBase.mySocket;
             window=XOGame.window;
             ps = new PrintStream(Soso.getOutputStream());
-            name="";
+//            name="";
             
         } catch (IOException ex) {
             Logger.getLogger(SignUpController.class.getName()).log(Level.SEVERE, null, ex);
@@ -88,7 +87,7 @@ public class SignUpController implements Initializable {
     private void signup(ActionEvent event) {
         //    if(passwordvalidation()&&usernamevalidation())
         //     {
-       name=username.getText(); 
+//       name=username.getText(); 
         ps.println("su" + "." + username.getText() + "." + password.getText());
         sosa.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
