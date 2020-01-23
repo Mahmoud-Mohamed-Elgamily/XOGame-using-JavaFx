@@ -5,11 +5,22 @@
  */
 package xogame;
 
+import java.io.File;
+import java.util.Optional;
 import java.util.Random;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import static javafx.scene.control.ButtonType.OK;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 
 /**
  *
@@ -24,22 +35,65 @@ public class Controller {
     Label scorex;
     Label scoreo;
     public String win;
+    MediaPlayer mediaPlayer;
+    protected final BorderPane borderPane;
+    public MediaView mediaView;
+    public DialogPane PopUpPane;
 
-    // singlehh l=new singlehh();
-    //ActionEvent event=new ActionEvent();
+   
     Button clickedbutton;
-    int counter;
+    int counter = 0;
     Button[] buttons;
-    int numx,numo;
+    int numx, numo;
 
-    public Controller(Button[] _buttons, Label x, Label o) {
+    public Controller(Button[] _buttons, Label x, Label o, DialogPane _PopUpPane, MediaView _mediaView, BorderPane _borderPane,Button Back) {
         buttons = _buttons;
         scorex = x;
         scoreo = o;
+        PopUpPane = _PopUpPane;
+        mediaView = _mediaView;
+        borderPane = _borderPane;
+        PopUpPane.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (getwinner()) {
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "do you want to play again!!");
+                    Optional<ButtonType> response = alert.showAndWait();
+                    if (response.get() == ButtonType.OK) {
+                        PopUpPane.setVisible(false);
+                        mediaPlayer.stop();
+                        PopUpPane.setDisable(true);
+                        borderPane.setVisible(true);
+
+                        for (i = 0; i < 9; i++) {
+                            buttons[i].setText("");
+
+                        }
+                        win = "";
+                        counter = 0;
+
+                    } else {
+                        
+                            back();
+
+                        }
+
+                }}});
+        Back.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                back();
+            }
+        });
+                
+
+                
+       
 
         for (i = 0; i < 9; i++) {
             buttons[i].setOnMouseClicked(new clicked());
         }
+        
     }
 
     public void play() {
@@ -49,11 +103,11 @@ public class Controller {
                 rnumber = rn.nextInt(8);
                 if (buttons[rnumber].getText().equals("")) {
                     buttons[rnumber].setText("O");
-                   // buttons[rnumber].setDisable(true);
+                    // buttons[rnumber].setDisable(true);
                     flageplayer = true;
                 }
             }
-        } 
+        }
     }
 
     public boolean getwinner() {
@@ -118,28 +172,86 @@ public class Controller {
         if (win == "X") {
             numx++;
             scorex.setText(Integer.toString(numx));
-        } else {
+            popVideo();
+        } else if (win == "O") {
             numo++;
             scoreo.setText(Integer.toString(numo));
+            popVideoloser();
+
+        } else {
+            popVideoDraw();
         }
 
     }
 
     class clicked implements EventHandler<MouseEvent> {
+
         @Override
         public void handle(MouseEvent event) {
             Button clicked = (Button) event.getSource();
-            if (getwinner() == false&&clicked.getText()=="") {
+            if (getwinner() == false && clicked.getText() == "") {
                 clicked.setText("X");
                 flageplayer = false;
+                counter++;
                 play();
-                //clicked.setDisable(true);
-                if (getwinner())
-                {whowin();}
+
+                if (getwinner()) {
+                    whowin();
+                }
             }
-               
-            
+
         }
         //To change body of generated methods, choose Tools | Templates.
     }
+
+    public void popVideoloser() {
+        PopUpPane.setVisible(true);
+        String path = "E:\\loser.mp4";
+        borderPane.setVisible(false);
+        Media media = new Media(new File(path).toURI().toString());
+        mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.setAutoPlay(true);
+        mediaView.setMediaPlayer(mediaPlayer);
+        PopUpPane.setDisable(false);
+    }
+
+    public void popVideoDraw() {
+        PopUpPane.setVisible(true);
+        String path = "E:\\facepalm.mp4";
+        borderPane.setVisible(false);
+        Media media = new Media(new File(path).toURI().toString());
+        mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.setAutoPlay(true);
+        mediaView.setMediaPlayer(mediaPlayer);
+        PopUpPane.setDisable(false);
+    }
+
+    private void popVideo() {
+        PopUpPane.setVisible(true);
+        borderPane.setVisible(false);
+        String path = "E:\\videoplayback.mp4";
+
+        Media media = new Media(new File(path).toURI().toString());
+        mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.setAutoPlay(true);
+        mediaView.setMediaPlayer(mediaPlayer);
+        PopUpPane.setDisable(false);
+
+    }
+    public void back(){
+        XOGame.bth();
+                        mediaPlayer.stop();
+                        win = "";
+                        counter = 0;
+                        numx = numo = 0;
+                        PopUpPane.setVisible(false);
+                        mediaPlayer.stop();
+                        PopUpPane.setDisable(true);
+                        borderPane.setVisible(true);
+                        scoreo.setText("0");
+                        scorex.setText("0");
+                        for (i = 0; i < 9; i++) {
+                            buttons[i].setText("");
+    }
+}
 }
