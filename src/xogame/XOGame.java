@@ -6,6 +6,7 @@
 package xogame;
 
 /*import client.FXMLDocumentBase;*/
+import com.sun.javafx.stage.StageHelper;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.Optional;
@@ -147,7 +148,11 @@ public class XOGame extends Application {
                                     public void handle(WindowEvent event) {
                                         try {
                                             // if(!SignUpController.Soso.equals(null))
-                                            SignInnController.ps.println("exit.");
+                                            if (StageHelper.getStages().equals(scene9)) {
+                                                SignInnController.ps.println(" exit.");
+                                            } else {
+                                                SignInnController.ps.println("exit.");
+                                            }
                                             Clienthandler.th.stop();
                                             ip.mySocket.close();
                                         } catch (IOException ex) {
@@ -198,48 +203,40 @@ public class XOGame extends Application {
 
         if (Clienthandler.msg != null) {
             String message = Clienthandler.msg;
-            System.out.println(message);
+            System.out.println(message.split("\\.")[0]);
             switch (message.split("\\.")[0]) {
 
                 case "done":
                 case "pass":
-                    System.out.println("123");
                     name = message.split("\\.")[1];
-                    //scene10 = new Scene(FXMLLoader.load(getClass().getResource("onlinePlayersUi.fxml")));
                     window.setScene(XOGame.scene10);
                     mystage.close();
                     window.show();
-
                     break;
-                case "dublicated": {
-                    System.out.println("1");
+                case "dublicated":
                     Alert alert = new Alert(Alert.AlertType.WARNING, "dublicated login!!");
                     alert.show();
                     break;
-                }
-                case "wrongPass": {
-                    Alert alert = new Alert(Alert.AlertType.WARNING, "wrongPass!!");
-                    alert.show();
+                case "wrongPass":
+                    Alert alert1 = new Alert(Alert.AlertType.WARNING, "wrongPass!!");
+                    alert1.show();
                     break;
-                }
-                case "wrongName": {
-                    Alert alert = new Alert(Alert.AlertType.WARNING, "wrongName!!");
-                    alert.show();
+                case "wrongName":
+                    Alert alert2 = new Alert(Alert.AlertType.WARNING, "wrongName!!");
+                    alert2.show();
                     break;
-                }
                 case "names":
-                    System.out.println("here");
                     for (String mssg : message.split("\\.")) {
                         if (!mssg.equals("names")) {
-                            System.out.println(mssg);
                             if (!playersNames.contains(mssg)) {
                                 playersNames.add(mssg);
                                 opb.nameLView.getItems().add(mssg);
                             }
                         }
                     }
-
+                    break;
                 case "request":
+                    System.out.println("request recieved");
                     ButtonType buttonTypeOk = new ButtonType("OK");
                     ButtonType buttonTypeNo = new ButtonType("NO");
                     Alert a = new Alert(Alert.AlertType.CONFIRMATION,
@@ -256,8 +253,6 @@ public class XOGame extends Application {
                 case "start":
                     window.setScene(scene9);
                     window.show();
-//                case "":
-
                     break;
                 default:
                     break;

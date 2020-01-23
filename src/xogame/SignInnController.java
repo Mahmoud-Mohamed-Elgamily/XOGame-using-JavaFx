@@ -66,12 +66,12 @@ public class SignInnController implements Initializable {
     private void login(ActionEvent event) {
 //        name=username.getText();
         ps.println("si" + "." + username.getText() + "." + password.getText());
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(SignInnController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        XOGame.Check();
+//        try {
+//            Thread.sleep(1000);
+//        } catch (InterruptedException ex) {
+//            Logger.getLogger(SignInnController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        XOGame.Check();
 
         username.clear();
         password.clear();

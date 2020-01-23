@@ -11,6 +11,7 @@ import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 
 /**
  *
@@ -43,9 +44,10 @@ public class Clienthandler implements Runnable {
 
                 msg = ois.readLine();
                 System.out.println(msg);
-//                Thread.sleep(1000);
                
-                
+                Platform.runLater(() -> {
+                    XOGame.Check();
+                });
             }
 
         } catch (IOException ex) {
