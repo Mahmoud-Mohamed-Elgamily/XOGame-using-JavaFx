@@ -248,7 +248,7 @@ public class FXMLDocumentController implements Initializable {
 
     private void popVideo() {
         PopUpPane.setVisible(true);
-        String path = "E:\\videoplayback.mp4";
+        String path = "c:\\videoplayback.mp4";
 
         Media media = new Media(new File(path).toURI().toString());
         mediaPlayer = new MediaPlayer(media);
@@ -339,7 +339,7 @@ public class FXMLDocumentController implements Initializable {
 
     private void popVideoDraw() {
         PopUpPane.setVisible(true);
-        String path = "E:\\facepalm.mp4";
+        String path = "c:\\facepalm.mp4";
 
         Media media = new Media(new File(path).toURI().toString());
         mediaPlayer = new MediaPlayer(media);

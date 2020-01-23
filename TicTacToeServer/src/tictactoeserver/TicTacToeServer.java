@@ -254,7 +254,7 @@ public class TicTacToeServer {
             String[] cleanedData = stripData(data);
             try {
                 if (dbc.Register(cleanedData[1], cleanedData[2])) {
-                    ps.println("done.");
+                    ps.println("done."+cleanedData[1]);
                     this.currentPlayerName = cleanedData[1];
                     this.currentPlayerScore = dbc.getScore(this.currentPlayerName);
                     loggedUsers.add(this);
@@ -289,7 +289,7 @@ public class TicTacToeServer {
                 }
                 switch (handle) {
                     case "pass":
-                        ps.println("pass.");
+                        ps.println("pass."+cleanedData[1]);
                         this.currentPlayerName = cleanedData[1];
                         this.currentPlayerScore = dbc.getScore(this.currentPlayerName);
                         loggedUsers.add(this);
@@ -331,7 +331,7 @@ public class TicTacToeServer {
         private void sendRequest(String pn1, String pn2) {
             for (PlayerHandler pp : loggedUsers) {
                 if (pp.currentPlayerName.equals(pn2)) {
-                    pp.ps.println("request.");
+                    pp.ps.println("request."+pn1);
                 }
             }
         }
@@ -378,5 +378,4 @@ public class TicTacToeServer {
             playerO.start();
         }
     }
-
 }

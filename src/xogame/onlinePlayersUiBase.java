@@ -3,16 +3,19 @@ package xogame;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import static xogame.XOGame.scene;
 import static xogame.XOGame.scene9;
 
-public  class onlinePlayersUiBase extends AnchorPane {
+public class onlinePlayersUiBase extends AnchorPane {
 
     protected final ListView nameLView;
     protected final Button button;
@@ -79,14 +82,22 @@ public  class onlinePlayersUiBase extends AnchorPane {
         getChildren().add(label);
         getChildren().add(label0);
         getChildren().add(button1);
+        nameLView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+               // nameLView.sel
+            }
+        });
 
     }
 
-    protected  void requestGame(javafx.event.ActionEvent actionEvent){
+    protected void requestGame(javafx.event.ActionEvent actionEvent) {
+        SignInnController.ps.println("invite."+XOGame.name+"."+nameLView.getSelectionModel().getSelectedItem().toString());
 //        invite.me.op
     }
     void startMatch(){
         try {
+            
             scene9 = new Scene(FXMLLoader.load(getClass().getResource("OnlinePlayersBoardUi.fxml")));
             XOGame.window.setScene(scene9);
             XOGame.window.show();
@@ -95,16 +106,18 @@ public  class onlinePlayersUiBase extends AnchorPane {
         }
     }
 
-    protected  void takeMeHome(javafx.event.ActionEvent actionEvent)
-    {  XOGame.bth();}
+    protected void takeMeHome(javafx.event.ActionEvent actionEvent) {
+        XOGame.bth();
+    }
 
-    protected  void refreshOnlinePlayers(javafx.event.ActionEvent actionEvent){
+    protected void refreshOnlinePlayers(javafx.event.ActionEvent actionEvent) {
         SignInnController.ps.println("names.");
         try {
             Thread.sleep(300);
         } catch (InterruptedException ex) {
             Logger.getLogger(OnlinePlayersUiController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        XOGame.Check();}
+        XOGame.Check();
+    }
 
 }
