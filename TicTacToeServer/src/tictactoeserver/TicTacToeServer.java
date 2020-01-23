@@ -258,19 +258,12 @@ public class TicTacToeServer {
                     this.currentPlayerName = cleanedData[1];
                     this.currentPlayerScore = dbc.getScore(this.currentPlayerName);
                     loggedUsers.add(this);
-//                    Thread.sleep(100);
-//                    sendNames();
                 } else {
                     ps.println("failed.");
                 }
             } catch (ArrayIndexOutOfBoundsException AI) {
                 ps.println("wrongName.");
             } 
-//            catch (SQLException ex) {
-//                Logger.getLogger(TicTacToeServer.class.getName()).log(Level.SEVERE, null, ex);
-//            } catch (InterruptedException ex) {
-//                Logger.getLogger(TicTacToeServer.class.getName()).log(Level.SEVERE, null, ex);
-//            }
         }
 
         private void signInHandler(String data) {
@@ -293,8 +286,6 @@ public class TicTacToeServer {
                         this.currentPlayerName = cleanedData[1];
                         this.currentPlayerScore = dbc.getScore(this.currentPlayerName);
                         loggedUsers.add(this);
-//                        Thread.sleep(100);
-//                        sendNames();
                         break;
                     case "wrongPass":
                         ps.println("wrongPass.");
@@ -331,7 +322,7 @@ public class TicTacToeServer {
         private void sendRequest(String pn1, String pn2) {
             for (PlayerHandler pp : loggedUsers) {
                 if (pp.currentPlayerName.equals(pn2)) {
-                    pp.ps.println("request."+pn1);
+                    pp.ps.println("request."+pn2);
                 }
             }
         }
@@ -347,7 +338,12 @@ public class TicTacToeServer {
                     startMatch();
                     break;
                 case "refused":
-                    ps.println("refused.");
+                    for (PlayerHandler pp : loggedUsers) {
+                        if (pp.currentPlayerName.equals(player1name)) {
+                            pp.ps.println("refused.");
+                        }
+                    }
+//                    ps.println("refused.");
                     break;
             }
         }
