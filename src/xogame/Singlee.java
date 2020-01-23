@@ -22,7 +22,7 @@ public class Singlee extends AnchorPane {
     protected final Pane pane;
     protected final ImageView imageView0;
     protected final Pane pane0;
-    protected final ToggleButton record;
+    protected final Button Back;
     protected final InnerShadow innerShadow;
     protected final AnchorPane anchorPane;
     protected final Label label;
@@ -53,7 +53,7 @@ public class Singlee extends AnchorPane {
         pane = new Pane();
         imageView0 = new ImageView();
         pane0 = new Pane();
-        record = new ToggleButton();
+        Back = new Button();
         innerShadow = new InnerShadow();
         anchorPane = new AnchorPane();
         label = new Label();
@@ -119,15 +119,15 @@ public class Singlee extends AnchorPane {
         pane0.setPrefHeight(81.0);
         pane0.setPrefWidth(601.0);
 
-        record.setLayoutX(462.0);
-        record.setLayoutY(-21.0);
-        record.setMnemonicParsing(false);
-        record.setPrefHeight(48.0);
-        record.setPrefWidth(132.0);
-        record.setStyle("-fx-background-color: none;");
-        record.setText("Record");
-        record.setTextFill(javafx.scene.paint.Color.valueOf("461212"));
-        record.setFont(new Font("French Script MT", 36.0));
+        Back.setLayoutX(462.0);
+        Back.setLayoutY(-21.0);
+        Back.setMnemonicParsing(false);
+        Back.setPrefHeight(48.0);
+        Back.setPrefWidth(132.0);
+        Back.setStyle("-fx-background-color: none;");
+        Back.setText("Back");
+        Back.setTextFill(javafx.scene.paint.Color.valueOf("461212"));
+        Back.setFont(new Font("French Script MT", 36.0));
 
         
         borderPane.setBottom(pane0);
@@ -166,7 +166,7 @@ public class Singlee extends AnchorPane {
         label2.setLayoutY(48.0);
         label2.setPrefHeight(66.0);
         label2.setPrefWidth(115.0);
-        label2.setText("Player1");
+        label2.setText("You");
         label2.setTextFill(javafx.scene.paint.Color.valueOf("#964b00"));
         label2.setFont(new Font("Felix Titling", 24.0));
 
@@ -339,7 +339,7 @@ public class Singlee extends AnchorPane {
         
         getChildren().add(imageView);
         pane.getChildren().add(imageView0);
-        pane0.getChildren().add(record);
+        pane0.getChildren().add(Back);
         anchorPane.getChildren().add(label);
         anchorPane.getChildren().add(label0);
         anchorPane.getChildren().add(scorex);
@@ -367,6 +367,8 @@ public class Singlee extends AnchorPane {
         PopUpPane.getChildren().add(mediaView);
         getChildren().add(borderPane);
         
-        new Controller(Buttons,scorex,scoreo,PopUpPane,mediaView,borderPane);
+        
+        
+        new Controller(Buttons,scorex,scoreo,PopUpPane,mediaView,borderPane,Back);
     }
 }

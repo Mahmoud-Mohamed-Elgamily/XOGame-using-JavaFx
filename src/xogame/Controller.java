@@ -8,6 +8,7 @@ package xogame;
 import java.io.File;
 import java.util.Optional;
 import java.util.Random;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -45,7 +46,7 @@ public class Controller {
     Button[] buttons;
     int numx, numo;
 
-    public Controller(Button[] _buttons, Label x, Label o, DialogPane _PopUpPane, MediaView _mediaView, BorderPane _borderPane) {
+    public Controller(Button[] _buttons, Label x, Label o, DialogPane _PopUpPane, MediaView _mediaView, BorderPane _borderPane,Button Back) {
         buttons = _buttons;
         scorex = x;
         scoreo = o;
@@ -72,31 +73,27 @@ public class Controller {
                         counter = 0;
 
                     } else {
-                        XOGame.bth();
-                        mediaPlayer.stop();
-                        win = "";
-                        counter = 0;
-                        numx = numo = 0;
-                        PopUpPane.setVisible(false);
-                        mediaPlayer.stop();
-                        PopUpPane.setDisable(true);
-                        borderPane.setVisible(true);
-                        scoreo.setText("0");
-                        scorex.setText("0");
-                        for (i = 0; i < 9; i++) {
-                            buttons[i].setText("");
+                        
+                            back();
 
                         }
 
-                    }
-                }
-
+                }}});
+        Back.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                back();
             }
         });
+                
+
+                
+       
 
         for (i = 0; i < 9; i++) {
             buttons[i].setOnMouseClicked(new clicked());
         }
+        
     }
 
     public void play() {
@@ -241,4 +238,20 @@ public class Controller {
         PopUpPane.setDisable(false);
 
     }
+    public void back(){
+        XOGame.bth();
+                        mediaPlayer.stop();
+                        win = "";
+                        counter = 0;
+                        numx = numo = 0;
+                        PopUpPane.setVisible(false);
+                        mediaPlayer.stop();
+                        PopUpPane.setDisable(true);
+                        borderPane.setVisible(true);
+                        scoreo.setText("0");
+                        scorex.setText("0");
+                        for (i = 0; i < 9; i++) {
+                            buttons[i].setText("");
+    }
+}
 }
