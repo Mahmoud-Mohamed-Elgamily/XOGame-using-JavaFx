@@ -55,6 +55,7 @@ public class SignInnController implements Initializable {
             sosa = XOGame.mystage;
             Soso = ipBase.mySocket;
             window = XOGame.window;
+            name="";
             ps = new PrintStream(Soso.getOutputStream());
 
         } catch (IOException ex) {

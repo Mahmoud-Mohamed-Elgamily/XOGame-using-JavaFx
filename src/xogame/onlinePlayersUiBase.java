@@ -3,11 +3,14 @@ package xogame;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import static xogame.XOGame.scene;
 import static xogame.XOGame.scene9;
@@ -79,11 +82,18 @@ public  class onlinePlayersUiBase extends AnchorPane {
         getChildren().add(label);
         getChildren().add(label0);
         getChildren().add(button1);
+        nameLView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+               // nameLView.sel
+            }
+        });
 
     }
 
     protected  void requestGame(javafx.event.ActionEvent actionEvent){
         try {
+            
             scene9 = new Scene(FXMLLoader.load(getClass().getResource("OnlinePlayersBoardUi.fxml")));
             
             XOGame.window.setScene(scene9);

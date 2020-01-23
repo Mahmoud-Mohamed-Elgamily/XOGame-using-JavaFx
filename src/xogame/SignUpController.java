@@ -59,7 +59,7 @@ public class SignUpController implements Initializable {
             Soso = ipBase.mySocket;
             window=XOGame.window;
             ps = new PrintStream(Soso.getOutputStream());
-            
+            name="";
             
         } catch (IOException ex) {
             Logger.getLogger(SignUpController.class.getName()).log(Level.SEVERE, null, ex);
