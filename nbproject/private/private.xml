@@ -3,27 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
-            <file>file:/D:/java%20xo/XOGame-using-JavaFx/src/xogame/FXMLDocument.fxml</file>
-            <file>file:/D:/java%20xo/XOGame-using-JavaFx/src/xogame/onlineBoardUi.fxml</file>
-            <file>file:/D:/java%20xo/XOGame-using-JavaFx/src/xogame/Clienthandler.java</file>
-            <file>file:/D:/java%20xo/XOGame-using-JavaFx/src/xogame/SignUpController.java</file>
-            <file>file:/D:/java%20xo/XOGame-using-JavaFx/src/xogame/onlineBoardUiBase.java</file>
-            <file>file:/D:/java%20xo/XOGame-using-JavaFx/src/xogame/multiPlayer.java</file>
-            <file>file:/D:/java%20xo/XOGame-using-JavaFx/src/xogame/onlinePlayersUiBase.java</file>
-            <file>file:/D:/java%20xo/XOGame-using-JavaFx/src/xogame/SignInnController.java</file>
-            <file>file:/D:/java%20xo/XOGame-using-JavaFx/src/xogame/XOGame.java</file>
-            <file>file:/D:/java%20xo/XOGame-using-JavaFx/src/xogame/OnlinePlayersUiController.java</file>
-            <file>file:/D:/java%20xo/XOGame-using-JavaFx/src/xogame/FXMLDocumentController.java</file>
-=======
-            <file>file:/D:/last%20fileee/XOGame-using-JavaFx/src/xogame/onlinePlayersUiBase.java</file>
-            <file>file:/D:/last%20fileee/XOGame-using-JavaFx/src/xogame/SignUpController.java</file>
-            <file>file:/D:/last%20fileee/XOGame-using-JavaFx/nbproject/jfx-impl.xml</file>
-            <file>file:/D:/last%20fileee/XOGame-using-JavaFx/src/xogame/SignInnController.java</file>
-            <file>file:/D:/last%20fileee/XOGame-using-JavaFx/src/xogame/Singlee.java</file>
-            <file>file:/D:/last%20fileee/XOGame-using-JavaFx/src/xogame/XOGame.java</file>
-            <file>file:/D:/last%20fileee/XOGame-using-JavaFx/src/xogame/Controller.java</file>
->>>>>>> 9bb37ba634b075b0cf843ebdced5196e41a8bd53
+            <file>file:/C:/Users/Me7moD/Desktop/java%20project/XOGame/src/xogame/OnlinePlayersUiController.java</file>
+            <file>file:/C:/Users/Me7moD/Desktop/java%20project/XOGame/src/xogame/onlinePlayersUiBase.java</file>
+            <file>file:/C:/Users/Me7moD/Desktop/java%20project/XOGame/src/xogame/XOGame.java</file>
+            <file>file:/C:/Users/Me7moD/Desktop/java%20project/XOGame/src/xogame/FXMLDocumentController.java</file>
+            <file>file:/C:/Users/Me7moD/Desktop/java%20project/XOGame/src/xogame/Clienthandler.java</file>
         </group>
     </open-files>
 </project-private>

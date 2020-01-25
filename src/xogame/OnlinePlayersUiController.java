@@ -16,6 +16,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import static xogame.XOGame.scene;
 import static xogame.XOGame.scene9;
@@ -32,6 +33,8 @@ public class OnlinePlayersUiController implements Initializable {
     @FXML
     public static ListView<String> scoreLView;
 //    PrintStream ps;
+    @FXML
+    static Label currentPlayerName;
 
     /**
      * Initializes the controller class.

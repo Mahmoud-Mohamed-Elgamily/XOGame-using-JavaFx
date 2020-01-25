@@ -26,37 +26,25 @@ public class Clienthandler implements Runnable {
     static Thread th;
 
     public Clienthandler(Socket _mySocket) {
-
         mySocket = _mySocket;
         th = new Thread(this);
         th.start();
-
     }
 
     @Override
     public void run() {
 
         try {
-
             ois = new DataInputStream(mySocket.getInputStream());
-
             while (true) {
-
                 msg = ois.readLine();
                 System.out.println(msg);
-               
                 Platform.runLater(() -> {
                     XOGame.Check();
                 });
             }
-
         } catch (IOException ex) {
             Logger.getLogger(Clienthandler.class.getName()).log(Level.SEVERE, null, ex);
-        } 
-//        catch (InterruptedException ex) {
-//            Logger.getLogger(Clienthandler.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-
+        }
     }
-
 }

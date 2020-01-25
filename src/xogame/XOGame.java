@@ -38,12 +38,14 @@ public class XOGame extends Application {
 
     public static Stage window, stage1;
     public static Scene scene, scene2, scene3, scene4, scene5, scene6, scene7, scene8, scene9, scene10;
+
     Parent root2;
     Start root;
     static onlinePlayersUiBase opb;
     static Vector<String> playersNames = new Vector<>();
     playersnameBase pn;
     static String name;
+    static String message;
 
     public static Stage mystage;
 
@@ -147,18 +149,12 @@ public class XOGame extends Application {
                                     @Override
                                     public void handle(WindowEvent event) {
                                         try {
-                                            // if(!SignUpController.Soso.equals(null))
-                                            if (StageHelper.getStages().equals(scene9)) {
-                                                SignInnController.ps.println(" exit.");
-                                            } else {
-                                                SignInnController.ps.println("exit.");
-                                            }
+                                            SignInnController.ps.println("exit.");
                                             Clienthandler.th.stop();
                                             ip.mySocket.close();
                                         } catch (IOException ex) {
                                             Logger.getLogger(XOGame.class.getName()).log(Level.SEVERE, null, ex);
                                         }
-
                                     }
                                 });
 
@@ -202,7 +198,7 @@ public class XOGame extends Application {
     static void Check() {
 
         if (Clienthandler.msg != null) {
-            String message = Clienthandler.msg;
+            message = Clienthandler.msg;
             System.out.println(message.split("\\.")[0]);
             switch (message.split("\\.")[0]) {
 
@@ -210,6 +206,7 @@ public class XOGame extends Application {
                 case "pass":
                     name = message.split("\\.")[1];
                     window.setScene(XOGame.scene10);
+//                    OnlinePlayersUiController.currentPlayerName.setText(name);
                     mystage.close();
                     window.show();
                     break;
@@ -245,14 +242,29 @@ public class XOGame extends Application {
                     Optional<ButtonType> result = a.showAndWait();
                     if (result.get() == buttonTypeOk) {
                         SignInnController.ps.println("reply.ok");
+                        OnlineBoardController.setMyMark("O");
+                        System.out.println(OnlineBoardController.myMark);
+
+                        window.setScene(scene9);
+                        window.show();
                         a.close();
                     } else if (result.get() == buttonTypeNo) {
                         SignInnController.ps.println("reply.refused");
                         a.close();
                     }
+                    break;
                 case "start":
+                    OnlineBoardController.setMyMark("X");
+                    System.out.println(OnlineBoardController.myMark);
+//                    scene9 = new 
                     window.setScene(scene9);
                     window.show();
+                    break;
+                case "your":
+                    OnlineBoardController.movehandler(message.split("\\.")[1]);
+                    break;
+                case "your1":
+                    OnlineBoardController.movehandler(message.split("\\.")[1]);
                     break;
                 default:
                     break;

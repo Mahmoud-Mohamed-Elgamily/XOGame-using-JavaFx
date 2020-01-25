@@ -3,327 +3,422 @@ package xogame;
 import javafx.scene.control.Button;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
+import javafx.scene.control.Separator;
 import javafx.scene.control.ToggleButton;
-import javafx.scene.effect.InnerShadow;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import static javafx.scene.layout.Region.USE_PREF_SIZE;
+import javafx.scene.layout.RowConstraints;
+import javafx.scene.media.MediaView;
+import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 
-public class onlineBoardUiBase extends AnchorPane {
+public class onlineBoardUiBase extends DialogPane {
 
-    protected final ImageView imageView;
-    protected final BorderPane borderPane;
-    protected final Pane pane;
-    protected final ImageView imageView0;
-    protected final Pane pane0;
-    protected final ToggleButton record;
-    protected final InnerShadow innerShadow;
-    protected final AnchorPane anchorPane;
+    protected final Line line;
+    protected final Line line0;
+    protected final Line line1;
+    protected final Line line2;
+    protected final Label P1;
+    protected final Label PX;
+    protected final Label scoreX;
+    protected final Label scoreO;
+    protected final Label PO;
+    protected final Label P2;
     protected final Label label;
-    protected final Label label0;
-    protected final Label scorex;
-    protected final Label label1;
-    protected final Label label2;
-    protected final Label scoreo;
-    protected final Pane pane1;
+    protected final Label PF;
+    protected final Separator separator;
+    protected final GridPane gridPane;
+    protected final ColumnConstraints columnConstraints;
+    protected final ColumnConstraints columnConstraints0;
+    protected final ColumnConstraints columnConstraints1;
+    protected final RowConstraints rowConstraints;
+    protected final RowConstraints rowConstraints0;
+    protected final RowConstraints rowConstraints1;
+    protected final Button btn0;
+    protected final Button btn1;
+    protected final Button btn2;
+    protected final Button btn3;
+    protected final Button btn4;
+    protected final Button btn5;
+    protected final Button btn6;
+    protected final Button btn7;
+    protected final Button btn8;
+    protected final ToggleButton recordBtn;
     protected final DialogPane PopUpPane;
-    protected final AnchorPane anchorPane0;
-    protected final ImageView imageView1;
-    protected final ImageView imageView2;
-    protected final ImageView imageView3;
-    protected final ImageView imageView4;
-    protected final Button Buttons[]=new Button[9];
-    protected final Pane pane2;
+    protected final AnchorPane anchorPane;
+    protected final Label wnr;
+    protected final MediaView mediaView;
+    protected final Button yesBtn;
+    protected final Button noBtn;
+    protected final Label label0;
 
     public onlineBoardUiBase() {
 
-        imageView = new ImageView();
-        borderPane = new BorderPane();
-        pane = new Pane();
-        imageView0 = new ImageView();
-        pane0 = new Pane();
-        record = new ToggleButton();
-        innerShadow = new InnerShadow();
-        anchorPane = new AnchorPane();
+        line = new Line();
+        line0 = new Line();
+        line1 = new Line();
+        line2 = new Line();
+        P1 = new Label();
+        PX = new Label();
+        scoreX = new Label();
+        scoreO = new Label();
+        PO = new Label();
+        P2 = new Label();
         label = new Label();
-        label0 = new Label();
-        scorex = new Label();
-        label1 = new Label();
-        label2 = new Label();
-        scoreo = new Label();
-        pane1 = new Pane();
+        PF = new Label();
+        separator = new Separator();
+        gridPane = new GridPane();
+        columnConstraints = new ColumnConstraints();
+        columnConstraints0 = new ColumnConstraints();
+        columnConstraints1 = new ColumnConstraints();
+        rowConstraints = new RowConstraints();
+        rowConstraints0 = new RowConstraints();
+        rowConstraints1 = new RowConstraints();
+        btn0 = new Button();
+        btn1 = new Button();
+        btn2 = new Button();
+        btn3 = new Button();
+        btn4 = new Button();
+        btn5 = new Button();
+        btn6 = new Button();
+        btn7 = new Button();
+        btn8 = new Button();
+        recordBtn = new ToggleButton();
         PopUpPane = new DialogPane();
-        anchorPane0 = new AnchorPane();
-        imageView1 = new ImageView();
-        imageView2 = new ImageView();
-        imageView3 = new ImageView();
-        imageView4 = new ImageView();
-        Buttons[0] = new Button();
-        Buttons[8] = new Button();
-        Buttons[5] = new Button();
-        Buttons[4] = new Button();
-        Buttons[6] = new Button();
-        Buttons[3] = new Button();
-        Buttons[7] = new Button();
-        Buttons[1] = new Button();
-        Buttons[2] = new Button();
-        pane2 = new Pane();
+        anchorPane = new AnchorPane();
+        wnr = new Label();
+        mediaView = new MediaView();
+        yesBtn = new Button();
+        noBtn = new Button();
+        label0 = new Label();
 
         setMaxHeight(USE_PREF_SIZE);
         setMaxWidth(USE_PREF_SIZE);
         setMinHeight(USE_PREF_SIZE);
         setMinWidth(USE_PREF_SIZE);
-        setPrefHeight(412.0);
-        setPrefWidth(626.0);
-        setStyle("-fx-background-color: trasparent;");
+        setPrefHeight(424.0);
+        setPrefWidth(622.0);
+        setStyle("-fx-background-color: #eac387;");
 
-        imageView.setFitHeight(433.0);
-        imageView.setFitWidth(655.0);
-        imageView.setLayoutX(-12.0);
-        imageView.setLayoutY(-9.0);
-        imageView.setPickOnBounds(true);
-        imageView.setSmooth(false);
-        imageView.setImage(new Image(getClass().getResource("/img/kisspng-desktop-wallpaper-papyrus-parchment-history-of-pap-banquet-5ac4addba54536.423433351522839003677.png").toExternalForm()));
+        line.setEndX(354.0);
+        line.setEndY(300.0);
+        line.setLayoutX(20.0);
+        line.setLayoutY(20.0);
+        line.setStartX(354.0);
+        line.setStartY(86.0);
+        line.setStroke(javafx.scene.paint.Color.valueOf("#964b00"));
+        line.setStrokeLineCap(javafx.scene.shape.StrokeLineCap.ROUND);
+        line.setStrokeWidth(6.0);
 
-        borderPane.setLayoutX(-6.0);
-        borderPane.setPrefHeight(400.0);
-        borderPane.setPrefWidth(608.0);
+        line0.setEndX(502.0);
+        line0.setEndY(173.0);
+        line0.setStartX(114.0);
+        line0.setStartY(173.0);
+        line0.setStroke(javafx.scene.paint.Color.valueOf("#964b00"));
+        line0.setStrokeLineCap(javafx.scene.shape.StrokeLineCap.ROUND);
+        line0.setStrokeWidth(6.0);
 
-        BorderPane.setAlignment(pane, javafx.geometry.Pos.CENTER);
-        pane.setPrefHeight(222.0);
-        pane.setPrefWidth(101.0);
+        line1.setEndX(492.0);
+        line1.setEndY(237.0);
+        line1.setLayoutX(10.0);
+        line1.setLayoutY(10.0);
+        line1.setStartX(106.0);
+        line1.setStartY(237.0);
+        line1.setStroke(javafx.scene.paint.Color.valueOf("#964b00"));
+        line1.setStrokeLineCap(javafx.scene.shape.StrokeLineCap.ROUND);
+        line1.setStrokeWidth(6.0);
 
-        imageView0.setFitHeight(60.0);
-        imageView0.setFitWidth(51.0);
-        imageView0.setLayoutX(25.0);
-        imageView0.setLayoutY(161.0);
-        imageView0.setPickOnBounds(true);
-        imageView0.setImage(new Image(getClass().getResource("/img/images.png").toExternalForm()));
-        borderPane.setRight(pane);
+        line2.setEndX(224.0);
+        line2.setEndY(301.0);
+        line2.setLayoutX(20.0);
+        line2.setLayoutY(20.0);
+        line2.setStartX(224.0);
+        line2.setStartY(88.0);
+        line2.setStroke(javafx.scene.paint.Color.valueOf("#964b00"));
+        line2.setStrokeLineCap(javafx.scene.shape.StrokeLineCap.ROUND);
+        line2.setStrokeWidth(6.0);
 
-        BorderPane.setAlignment(pane0, javafx.geometry.Pos.CENTER);
-        pane0.setPrefHeight(81.0);
-        pane0.setPrefWidth(601.0);
+        P1.setLayoutX(26.0);
+        P1.setLayoutY(46.0);
+        P1.setPrefHeight(30.0);
+        P1.setPrefWidth(111.0);
+        P1.setText("Player1");
+        P1.setTextFill(javafx.scene.paint.Color.valueOf("#964b00"));
+        P1.setFont(new Font("Felix Titling", 18.0));
 
-        record.setLayoutX(462.0);
-        record.setLayoutY(-21.0);
-        record.setMnemonicParsing(false);
-        record.setPrefHeight(48.0);
-        record.setPrefWidth(132.0);
-        record.setStyle("-fx-background-color: none;");
-        record.setText("Record");
-        record.setTextFill(javafx.scene.paint.Color.valueOf("461212"));
-        record.setFont(new Font("French Script MT", 36.0));
+        PX.setLayoutX(161.0);
+        PX.setLayoutY(51.0);
+        PX.setText("X");
+        PX.setFont(new Font(14.0));
 
-        
-        borderPane.setBottom(pane0);
+        scoreX.setLayoutX(219.0);
+        scoreX.setLayoutY(42.0);
+        scoreX.setText("0");
+        scoreX.setTextFill(javafx.scene.paint.Color.valueOf("#964b00"));
+        scoreX.setFont(new Font(28.0));
 
-        BorderPane.setAlignment(anchorPane, javafx.geometry.Pos.CENTER);
-        anchorPane.setPrefHeight(100.0);
-        anchorPane.setPrefWidth(646.0);
+        scoreO.setLayoutX(545.0);
+        scoreO.setLayoutY(41.0);
+        scoreO.setText("0");
+        scoreO.setTextFill(javafx.scene.paint.Color.valueOf("#964b00"));
+        scoreO.setFont(new Font(28.0));
 
-        label.setLayoutX(334.0);
-        label.setLayoutY(47.0);
-        label.setPrefHeight(63.0);
-        label.setPrefWidth(153.0);
-        label.setText("Player2");
-        label.setTextFill(javafx.scene.paint.Color.valueOf("#964b00"));
-        label.setFont(new Font("Felix Titling", 24.0));
+        PO.setLayoutX(489.0);
+        PO.setLayoutY(51.0);
+        PO.setText("O");
+        PO.setFont(new Font(14.0));
 
-        label0.setLayoutX(211.0);
-        label0.setLayoutY(69.0);
-        label0.setText("X");
-        label0.setFont(new Font("Forte", 18.0));
+        P2.setLayoutX(352.0);
+        P2.setLayoutY(47.0);
+        P2.setPrefHeight(30.0);
+        P2.setPrefWidth(111.0);
+        P2.setText("Player2");
+        P2.setTextFill(javafx.scene.paint.Color.valueOf("#964b00"));
+        P2.setFont(new Font("Felix Titling", 18.0));
 
-        scorex.setLayoutX(247.0);
-        scorex.setLayoutY(61.0);
-        scorex.setPrefHeight(36.0);
-        scorex.setPrefWidth(50.0);
-        scorex.setText("0");
-        scorex.setTextFill(javafx.scene.paint.Color.valueOf("#964b00"));
-        scorex.setFont(new Font(28.0));
+        label.setLayoutX(33.0);
+        label.setLayoutY(348.0);
+        label.setPrefHeight(65.0);
+        label.setPrefWidth(129.0);
+        label.setText("Current Player: ");
+        label.setFont(new Font("Forte", 18.0));
 
-        label1.setLayoutX(482.0);
-        label1.setLayoutY(69.0);
-        label1.setText("O");
-        label1.setFont(new Font("Forte", 17.0));
+        PF.setLayoutX(169.0);
+        PF.setLayoutY(366.0);
+        PF.setPrefHeight(30.0);
+        PF.setPrefWidth(74.0);
+        PF.setTextFill(javafx.scene.paint.Color.valueOf("#964b00"));
+        PF.setFont(new Font("Forte", 18.0));
 
-        label2.setLayoutX(89.0);
-        label2.setLayoutY(48.0);
-        label2.setPrefHeight(66.0);
-        label2.setPrefWidth(115.0);
-        label2.setText("Player1");
-        label2.setTextFill(javafx.scene.paint.Color.valueOf("#964b00"));
-        label2.setFont(new Font("Felix Titling", 24.0));
+        separator.setLayoutX(130.0);
+        separator.setLayoutY(331.0);
+        separator.setPrefHeight(17.0);
+        separator.setPrefWidth(370.0);
+        separator.setVisible(false);
 
-        scoreo.setLayoutX(522.0);
-        scoreo.setLayoutY(59.0);
-        scoreo.setPrefHeight(20.0);
-        scoreo.setPrefWidth(32.0);
-        scoreo.setText("0");
-        scoreo.setTextFill(javafx.scene.paint.Color.valueOf("#964b00"));
-        scoreo.setFont(new Font(28.0));
-        borderPane.setTop(anchorPane);
+        gridPane.setLayoutX(116.0);
+        gridPane.setLayoutY(115.0);
+        gridPane.setPrefHeight(195.0);
+        gridPane.setPrefWidth(385.0);
+        gridPane.setStyle("-fx-border-color: #eac387;");
 
-        BorderPane.setAlignment(pane1, javafx.geometry.Pos.CENTER);
-        pane1.setPrefHeight(236.0);
-        pane1.setPrefWidth(378.0);
+        columnConstraints.setHgrow(javafx.scene.layout.Priority.SOMETIMES);
+        columnConstraints.setMinWidth(10.0);
+        columnConstraints.setPrefWidth(100.0);
 
-        PopUpPane.setLayoutX(-85.0);
-        PopUpPane.setLayoutY(-37.0);
-        PopUpPane.setMinHeight(USE_PREF_SIZE);
-        PopUpPane.setMinWidth(USE_PREF_SIZE);
-        PopUpPane.setPrefHeight(358.0);
-        PopUpPane.setPrefWidth(574.0);
+        columnConstraints0.setHgrow(javafx.scene.layout.Priority.SOMETIMES);
+        columnConstraints0.setMinWidth(10.0);
+        columnConstraints0.setPrefWidth(100.0);
+
+        columnConstraints1.setHgrow(javafx.scene.layout.Priority.SOMETIMES);
+        columnConstraints1.setMinWidth(10.0);
+        columnConstraints1.setPrefWidth(100.0);
+
+        rowConstraints.setMinHeight(10.0);
+        rowConstraints.setPrefHeight(30.0);
+        rowConstraints.setVgrow(javafx.scene.layout.Priority.SOMETIMES);
+
+        rowConstraints0.setMinHeight(10.0);
+        rowConstraints0.setPrefHeight(30.0);
+        rowConstraints0.setVgrow(javafx.scene.layout.Priority.SOMETIMES);
+
+        rowConstraints1.setMinHeight(10.0);
+        rowConstraints1.setPrefHeight(30.0);
+        rowConstraints1.setVgrow(javafx.scene.layout.Priority.SOMETIMES);
+
+        btn0.setFocusTraversable(false);
+        btn0.setMnemonicParsing(false);
+        btn0.setOnAction(this::set0);
+        btn0.setPrefHeight(76.0);
+        btn0.setPrefWidth(131.0);
+        btn0.setStyle("-fx-background-color: none;");
+        btn0.setFont(new Font(36.0));
+
+        GridPane.setColumnIndex(btn1, 1);
+        btn1.setFocusTraversable(false);
+        btn1.setMnemonicParsing(false);
+        btn1.setOnAction(this::set0);
+        btn1.setPrefHeight(76.0);
+        btn1.setPrefWidth(131.0);
+        btn1.setStyle("-fx-background-color: none;");
+        btn1.setFont(new Font(36.0));
+
+        GridPane.setColumnIndex(btn2, 2);
+        btn2.setFocusTraversable(false);
+        btn2.setMnemonicParsing(false);
+        btn2.setOnAction(this::set0);
+        btn2.setPrefHeight(67.0);
+        btn2.setPrefWidth(131.0);
+        btn2.setStyle("-fx-background-color: none;");
+        btn2.setFont(new Font(36.0));
+
+        GridPane.setRowIndex(btn3, 1);
+        btn3.setFocusTraversable(false);
+        btn3.setMnemonicParsing(false);
+        btn3.setOnAction(this::set0);
+        btn3.setPrefHeight(76.0);
+        btn3.setPrefWidth(131.0);
+        btn3.setStyle("-fx-background-color: none;");
+        btn3.setFont(new Font(36.0));
+
+        GridPane.setColumnIndex(btn4, 1);
+        GridPane.setRowIndex(btn4, 1);
+        btn4.setFocusTraversable(false);
+        btn4.setMnemonicParsing(false);
+        btn4.setOnAction(this::set0);
+        btn4.setPrefHeight(76.0);
+        btn4.setPrefWidth(131.0);
+        btn4.setStyle("-fx-background-color: none;");
+        btn4.setFont(new Font(36.0));
+
+        GridPane.setColumnIndex(btn5, 2);
+        GridPane.setRowIndex(btn5, 1);
+        btn5.setFocusTraversable(false);
+        btn5.setMnemonicParsing(false);
+        btn5.setOnAction(this::set0);
+        btn5.setPrefHeight(76.0);
+        btn5.setPrefWidth(131.0);
+        btn5.setStyle("-fx-background-color: none;");
+        btn5.setFont(new Font(36.0));
+
+        GridPane.setRowIndex(btn6, 2);
+        btn6.setFocusTraversable(false);
+        btn6.setMnemonicParsing(false);
+        btn6.setOnAction(this::set0);
+        btn6.setPrefHeight(76.0);
+        btn6.setPrefWidth(131.0);
+        btn6.setStyle("-fx-background-color: none;");
+        btn6.setFont(new Font(36.0));
+
+        GridPane.setColumnIndex(btn7, 1);
+        GridPane.setRowIndex(btn7, 2);
+        btn7.setFocusTraversable(false);
+        btn7.setMnemonicParsing(false);
+        btn7.setOnAction(this::set0);
+        btn7.setPrefHeight(76.0);
+        btn7.setPrefWidth(131.0);
+        btn7.setStyle("-fx-background-color: none;");
+        btn7.setFont(new Font(36.0));
+
+        GridPane.setColumnIndex(btn8, 2);
+        GridPane.setRowIndex(btn8, 2);
+        btn8.setFocusTraversable(false);
+        btn8.setMnemonicParsing(false);
+        btn8.setOnAction(this::set0);
+        btn8.setPrefHeight(76.0);
+        btn8.setPrefWidth(131.0);
+        btn8.setStyle("-fx-background-color: none;");
+        btn8.setFont(new Font(36.0));
+
+        recordBtn.setLayoutX(483.0);
+        recordBtn.setLayoutY(361.0);
+        recordBtn.setMnemonicParsing(false);
+        recordBtn.setOnAction(this::switchRecordOption);
+        recordBtn.setPrefHeight(40.0);
+        recordBtn.setPrefWidth(111.0);
+        recordBtn.setStyle("-fx-background-color: #964b00;");
+        recordBtn.setText("Record");
+        recordBtn.setTextFill(javafx.scene.paint.Color.valueOf("#eac387"));
+        recordBtn.setFont(new Font("Forte", 24.0));
+
+        PopUpPane.setLayoutX(26.0);
+        PopUpPane.setLayoutY(51.0);
+        PopUpPane.setMinHeight(350.0);
+        PopUpPane.setPrefHeight(350.0);
+        PopUpPane.setPrefWidth(568.0);
         PopUpPane.setVisible(false);
 
-        anchorPane0.setLayoutX(47.0);
-        anchorPane0.setLayoutY(-6.0);
-        anchorPane0.setPrefHeight(246.0);
-        anchorPane0.setPrefWidth(309.0);
+        anchorPane.setPrefHeight(354.0);
+        anchorPane.setPrefWidth(568.0);
 
-        imageView1.setFitHeight(237.0);
-        imageView1.setFitWidth(126.0);
-        imageView1.setLayoutX(129.0);
-        imageView1.setLayoutY(-9.0);
-        imageView1.setPickOnBounds(true);
-        imageView1.setImage(new Image(getClass().getResource("/img/wooden-baton-stick-500x500.png").toExternalForm()));
+        wnr.setLayoutX(131.0);
+        wnr.setLayoutY(1.0);
+        wnr.setPrefHeight(17.0);
+        wnr.setPrefWidth(292.0);
+        wnr.setText("Label");
+        wnr.setFont(new Font(18.0));
 
-        imageView2.setFitHeight(235.0);
-        imageView2.setFitWidth(131.0);
-        imageView2.setLayoutX(47.0);
-        imageView2.setLayoutY(-4.0);
-        imageView2.setPickOnBounds(true);
-        imageView2.setImage(new Image(getClass().getResource("/img/jj.png").toExternalForm()));
+        mediaView.setFitHeight(250.0);
+        mediaView.setFitWidth(300.0);
+        mediaView.setLayoutX(134.0);
+        mediaView.setLayoutY(28.0);
 
-        imageView3.setFitHeight(129.0);
-        imageView3.setFitWidth(309.0);
-        imageView3.setPickOnBounds(true);
-        imageView3.setImage(new Image(getClass().getResource("/img/ss.png").toExternalForm()));
+        yesBtn.setLayoutX(177.0);
+        yesBtn.setLayoutY(309.0);
+        yesBtn.setMnemonicParsing(false);
+        yesBtn.setOnAction(this::playAgain);
+        yesBtn.setText("Yes");
+        yesBtn.setFont(new Font(18.0));
 
-        imageView4.setFitHeight(112.0);
-        imageView4.setFitWidth(311.0);
-        imageView4.setLayoutY(98.0);
-        imageView4.setPickOnBounds(true);
-        imageView4.setImage(new Image(getClass().getResource("/img/kl.png").toExternalForm()));
+        noBtn.setLayoutX(333.0);
+        noBtn.setLayoutY(309.0);
+        noBtn.setMnemonicParsing(false);
+        noBtn.setOnAction(this::goToHome);
+        noBtn.setText("No");
+        noBtn.setFont(new Font(18.0));
 
-        Buttons[0].setLayoutX(2.0);
-        Buttons[0].setLayoutY(1.0);
-        Buttons[0].setMnemonicParsing(false);
-        Buttons[0].setPrefHeight(60.0);
-        Buttons[0].setPrefWidth(100.0);
-        Buttons[0].setStyle("-fx-background-color: none;");
-        Buttons[0].setTextFill(javafx.scene.paint.Color.valueOf("#964b00"));
-        Buttons[0].setFont(new Font("Forte", 40.0));
+        label0.setAlignment(javafx.geometry.Pos.CENTER);
+        label0.setLayoutX(138.0);
+        label0.setLayoutY(278.0);
+        label0.setPrefHeight(17.0);
+        label0.setPrefWidth(292.0);
+        label0.setText("Wanna Play again ?");
+        label0.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
+        label0.setTextOverrun(javafx.scene.control.OverrunStyle.CLIP);
+        label0.setFont(new Font(18.0));
+        PopUpPane.setHeader(anchorPane);
 
-        Buttons[8].setLayoutX(205.0);
-        Buttons[8].setLayoutY(150.0);
-        Buttons[8].setMnemonicParsing(false);
-        Buttons[8].setPrefHeight(60.0);
-        Buttons[8].setPrefWidth(100.0);
-        Buttons[8].setStyle("-fx-background-color: none;");
-        Buttons[8].setTextFill(javafx.scene.paint.Color.valueOf("#964b00"));
-        Buttons[8].setFont(new Font("Forte", 40.0));
-
-        Buttons[5].setLayoutX(205.0);
-        Buttons[5].setLayoutY(78.0);
-        Buttons[5].setMnemonicParsing(false);
-        Buttons[5].setPrefHeight(60.0);
-        Buttons[5].setPrefWidth(100.0);
-        Buttons[5].setStyle("-fx-background-color: none;");
-        Buttons[5].setTextFill(javafx.scene.paint.Color.valueOf("#964b00"));
-        Buttons[5].setFont(new Font("Forte", 40.0));
-
-        Buttons[4].setLayoutX(104.0);
-        Buttons[4].setLayoutY(76.0);
-        Buttons[4].setMnemonicParsing(false);
-        Buttons[4].setPrefHeight(60.0);
-        Buttons[4].setPrefWidth(100.0);
-        Buttons[4].setStyle("-fx-background-color: none;");
-        Buttons[4].setTextFill(javafx.scene.paint.Color.valueOf("#964b00"));
-        Buttons[4].setFont(new Font("Forte", 40.0));
-
-        Buttons[6].setLayoutX(1.0);
-        Buttons[6].setLayoutY(153.0);
-        Buttons[6].setMnemonicParsing(false);
-        Buttons[6].setPrefHeight(60.0);
-        Buttons[6].setPrefWidth(100.0);
-        Buttons[6].setStyle("-fx-background-color: none;");
-        Buttons[6].setTextFill(javafx.scene.paint.Color.valueOf("#964b00"));
-        Buttons[6].setFont(new Font("Forte", 40.0));
-
-        Buttons[3].setLayoutX(4.0);
-        Buttons[3].setLayoutY(78.0);
-        Buttons[3].setMnemonicParsing(false);
-        Buttons[3].setPrefHeight(60.0);
-        Buttons[3].setPrefWidth(100.0);
-        Buttons[3].setStyle("-fx-background-color: none;");
-        Buttons[3].setTextFill(javafx.scene.paint.Color.valueOf("#964b00"));
-        Buttons[3].setFont(new Font("Forte", 40.0));
-
-        Buttons[7].setLayoutX(104.0);
-        Buttons[7].setLayoutY(154.0);
-        Buttons[7].setMnemonicParsing(false);
-        Buttons[7].setPrefHeight(60.0);
-        Buttons[7].setPrefWidth(100.0);
-        Buttons[7].setStyle("-fx-background-color: none;");
-        Buttons[7].setTextFill(javafx.scene.paint.Color.valueOf("#964b00"));
-        Buttons[7].setFont(new Font("Forte", 40.0));
-
-        Buttons[1].setLayoutX(104.0);
-        Buttons[1].setLayoutY(1.0);
-        Buttons[1].setMnemonicParsing(false);
-        Buttons[1].setPrefHeight(60.0);
-        Buttons[1].setPrefWidth(100.0);
-        Buttons[1].setStyle("-fx-background-color: none;");
-        Buttons[1].setTextFill(javafx.scene.paint.Color.valueOf("#964b00"));
-        Buttons[1].setFont(new Font("Forte", 40.0));
-
-        Buttons[2].setLayoutX(205.0);
-        Buttons[2].setLayoutY(1.0);
-        Buttons[2].setMnemonicParsing(false);
-        Buttons[2].setPrefHeight(60.0);
-        Buttons[2].setPrefWidth(100.0);
-        Buttons[2].setStyle("-fx-background-color: none;");
-        Buttons[2].setTextFill(javafx.scene.paint.Color.valueOf("#964b00"));
-        Buttons[2].setFont(new Font("Forte", 40.0));
-        borderPane.setCenter(pane1);
-
-        BorderPane.setAlignment(pane2, javafx.geometry.Pos.CENTER);
-        pane2.setPrefHeight(236.0);
-        pane2.setPrefWidth(114.0);
-        borderPane.setLeft(pane2);
-
-        
-        getChildren().add(imageView);
-        pane.getChildren().add(imageView0);
-        pane0.getChildren().add(record);
-        anchorPane.getChildren().add(label);
+        getChildren().add(line);
+        getChildren().add(line0);
+        getChildren().add(line1);
+        getChildren().add(line2);
+        getChildren().add(P1);
+        getChildren().add(PX);
+        getChildren().add(scoreX);
+        getChildren().add(scoreO);
+        getChildren().add(PO);
+        getChildren().add(P2);
+        getChildren().add(label);
+        getChildren().add(PF);
+        getChildren().add(separator);
+        gridPane.getColumnConstraints().add(columnConstraints);
+        gridPane.getColumnConstraints().add(columnConstraints0);
+        gridPane.getColumnConstraints().add(columnConstraints1);
+        gridPane.getRowConstraints().add(rowConstraints);
+        gridPane.getRowConstraints().add(rowConstraints0);
+        gridPane.getRowConstraints().add(rowConstraints1);
+        gridPane.getChildren().add(btn0);
+        gridPane.getChildren().add(btn1);
+        gridPane.getChildren().add(btn2);
+        gridPane.getChildren().add(btn3);
+        gridPane.getChildren().add(btn4);
+        gridPane.getChildren().add(btn5);
+        gridPane.getChildren().add(btn6);
+        gridPane.getChildren().add(btn7);
+        gridPane.getChildren().add(btn8);
+        getChildren().add(gridPane);
+        getChildren().add(recordBtn);
+        anchorPane.getChildren().add(wnr);
+        anchorPane.getChildren().add(mediaView);
+        anchorPane.getChildren().add(yesBtn);
+        anchorPane.getChildren().add(noBtn);
         anchorPane.getChildren().add(label0);
-        anchorPane.getChildren().add(scorex);
-        anchorPane.getChildren().add(label1);
-        anchorPane.getChildren().add(label2);
-        anchorPane.getChildren().add(scoreo);
-        pane1.getChildren().add(PopUpPane);
-        anchorPane0.getChildren().add(imageView1);
-        anchorPane0.getChildren().add(imageView2);
-        anchorPane0.getChildren().add(imageView3);
-        anchorPane0.getChildren().add(imageView4);
-        anchorPane0.getChildren().add(Buttons[0]);
-        anchorPane0.getChildren().add(Buttons[8]);
-        anchorPane0.getChildren().add(Buttons[5]);
-        anchorPane0.getChildren().add(Buttons[4]);
-        anchorPane0.getChildren().add(Buttons[6]);
-        anchorPane0.getChildren().add(Buttons[3]);
-        anchorPane0.getChildren().add(Buttons[7]);
-        anchorPane0.getChildren().add(Buttons[1]);
-        anchorPane0.getChildren().add(Buttons[2]);
-        pane1.getChildren().add(anchorPane0);
-        getChildren().add(borderPane);
-      //  new Controller(Buttons,scorex,scoreo);
+        getChildren().add(PopUpPane);
+
     }
+
+    protected void set0(javafx.event.ActionEvent actionEvent) {
+    }
+
+    protected void switchRecordOption(javafx.event.ActionEvent actionEvent) {
+    }
+
+    protected void playAgain(javafx.event.ActionEvent actionEvent) {
+    }
+
+    protected void goToHome(javafx.event.ActionEvent actionEvent) {
+    }
+
 }

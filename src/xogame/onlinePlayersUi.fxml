@@ -10,8 +10,6 @@
       <ListView fx:id="nameLView" layoutX="100.0" layoutY="100.0" prefHeight="200.0" prefWidth="200.0" />
       <Button layoutX="395.0" layoutY="131.0" mnemonicParsing="false" onAction="#requestGame" text="Request Match" />
       <Button layoutX="419.0" layoutY="251.0" mnemonicParsing="false" onAction="#takeMeHome" text="Home" />
-      <ListView fx:id="scoreLView" layoutX="66.0" layoutY="100.0" prefHeight="200.0" prefWidth="34.0" />
-      <Label layoutX="65.0" layoutY="74.0" text="Score :" />
       <Label layoutX="114.0" layoutY="74.0" text="Player Name" />
       <Button layoutX="415.0" layoutY="188.0" mnemonicParsing="false" onAction="#refreshOnlinePlayers" text="Refresh" />
    </children>

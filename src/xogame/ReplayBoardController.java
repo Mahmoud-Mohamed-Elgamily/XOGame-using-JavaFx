@@ -33,7 +33,7 @@ public class ReplayBoardController implements Initializable {
     @FXML
     private Label P1;
     @FXML
-    private Label P2;
+    private Label P21;
     @FXML
     private Button btn0;
     @FXML
@@ -70,26 +70,12 @@ public class ReplayBoardController implements Initializable {
         buttonlist.add(btn6);
         buttonlist.add(btn7);
         buttonlist.add(btn8);
-        setBackGround();
         playGame();
-    }
-
-    public void setBackGround() {
-        btn0.setStyle("-fx-background-color:none;-fx-border-width: 2px;-fx-border-style: solid;-fx-border-color: lightgray;");
-        btn1.setStyle("-fx-background-color:none;-fx-border-width: 2px;-fx-border-style: solid;-fx-border-color: lightgray;");
-        btn2.setStyle("-fx-background-color:none;-fx-border-width: 2px;-fx-border-style: solid;-fx-border-color: lightgray;");
-        btn3.setStyle("-fx-background-color:none;-fx-border-width: 2px;-fx-border-style: solid;-fx-border-color: lightgray;");
-        btn4.setStyle("-fx-background-color:none;-fx-border-width: 2px;-fx-border-style: solid;-fx-border-color: lightgray;");
-        btn5.setStyle("-fx-background-color:none;-fx-border-width: 2px;-fx-border-style: solid;-fx-border-color: lightgray;");
-        btn6.setStyle("-fx-background-color:none;-fx-border-width: 2px;-fx-border-style: solid;-fx-border-color: lightgray;");
-        btn7.setStyle("-fx-background-color:none;-fx-border-width: 2px;-fx-border-style: solid;-fx-border-color: lightgray;");
-        btn8.setStyle("-fx-background-color:none;-fx-border-width: 2px;-fx-border-style: solid;-fx-border-color: lightgray;");
-
     }
 
     void playGame() {
         P1.setText(ReplayUiController.rPlayer1);
-        P2.setText(ReplayUiController.rPlayer2);
+        P21.setText(ReplayUiController.rPlayer2);
         score1.setText(ReplayUiController.rScore1);
         score2.setText(ReplayUiController.rScore2);
         int counter = 0;

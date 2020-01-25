@@ -66,7 +66,7 @@ public class Game {
         Socket socket;
         BufferedReader input;
         PrintWriter output;
-
+        String movement;
         // thread handler to initialize stream fields
         public Player(Socket socket, char mark) {
             this.socket = socket;
@@ -99,8 +99,9 @@ public class Game {
 
                 // Tell the first player that it is his/her turn.
                 if (mark == 'X') {
-//                    output.println("MESSAGE Your move");
-                    output.println("You.move");
+                    output.println("your."+movement);
+                } else {
+                    output.println("your1."+movement);
                 }
 
                 // Repeatedly get commands from the client and process them.
@@ -108,10 +109,10 @@ public class Game {
                     String command = input.readLine();
                     System.out.println("reading " + command);
                     if (command.split("\\.")[0].equals("move")) {
+                        movement = command.split("\\.")[1];
                         int location = Integer.parseInt(command.split("\\.")[1]);
                         System.out.println(location);
                         if (legalMove(location, this)) {
-                            output.println("VALID_MOVE");
                             output.println(hasWinner() ? "VICTORY" : boardFilledUp() ? "TIE" : "");
                         } else {
                             output.println("MESSAGE ?");
@@ -123,7 +124,7 @@ public class Game {
                 }
             } catch (IOException e) {
                 System.out.println("Player died: " + e);
-            } 
+            }
 //            finally {
 //                try {
 //                    socket.close();

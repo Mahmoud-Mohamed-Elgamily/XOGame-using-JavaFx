@@ -96,19 +96,6 @@ public class FXMLDocumentController implements Initializable {
         this.isGameEnds = false;
     }
 
-    public void setBackGround() {
-        btn0.setStyle("-fx-background-color:none;-fx-border-width: 2px;-fx-border-style: solid;-fx-border-color: lightgray;");
-        btn1.setStyle("-fx-background-color:none;-fx-border-width: 2px;-fx-border-style: solid;-fx-border-color: lightgray;");
-        btn2.setStyle("-fx-background-color:none;-fx-border-width: 2px;-fx-border-style: solid;-fx-border-color: lightgray;");
-        btn3.setStyle("-fx-background-color:none;-fx-border-width: 2px;-fx-border-style: solid;-fx-border-color: lightgray;");
-        btn4.setStyle("-fx-background-color:none;-fx-border-width: 2px;-fx-border-style: solid;-fx-border-color: lightgray;");
-        btn5.setStyle("-fx-background-color:none;-fx-border-width: 2px;-fx-border-style: solid;-fx-border-color: lightgray;");
-        btn6.setStyle("-fx-background-color:none;-fx-border-width: 2px;-fx-border-style: solid;-fx-border-color: lightgray;");
-        btn7.setStyle("-fx-background-color:none;-fx-border-width: 2px;-fx-border-style: solid;-fx-border-color: lightgray;");
-        btn8.setStyle("-fx-background-color:none;-fx-border-width: 2px;-fx-border-style: solid;-fx-border-color: lightgray;");
-
-    }
-
     private void checkIfGameEnds() {
 
         String t00 = btn0.getText();
@@ -208,7 +195,6 @@ public class FXMLDocumentController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         P1.setText(playersnameBase.player1Label);
         P2.setText(playersnameBase.player2Label);
-        setBackGround();
     }
 
     @FXML

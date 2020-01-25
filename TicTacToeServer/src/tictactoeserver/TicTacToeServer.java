@@ -322,7 +322,7 @@ public class TicTacToeServer {
         private void sendRequest(String pn1, String pn2) {
             for (PlayerHandler pp : loggedUsers) {
                 if (pp.currentPlayerName.equals(pn2)) {
-                    pp.ps.println("request."+pn2);
+                    pp.ps.println("request."+pn1);
                 }
             }
         }
@@ -332,7 +332,7 @@ public class TicTacToeServer {
                 case "ok":
                     for (PlayerHandler pp : loggedUsers) {
                         if (pp.currentPlayerName.equals(player1name)) {
-                            pp.ps.println("start.");
+                            pp.ps.println("start."+player2name+"."+player1name);
                         }
                     }
                     startMatch();

@@ -206,7 +206,7 @@ public class Controller {
 
     public void popVideoloser() {
         PopUpPane.setVisible(true);
-        String path = "E:\\loser.mp4";
+        String path = "C:\\loser.mp4";
         borderPane.setVisible(false);
         Media media = new Media(new File(path).toURI().toString());
         mediaPlayer = new MediaPlayer(media);
@@ -217,7 +217,7 @@ public class Controller {
 
     public void popVideoDraw() {
         PopUpPane.setVisible(true);
-        String path = "E:\\facepalm.mp4";
+        String path = "C:\\facepalm.mp4";
         borderPane.setVisible(false);
         Media media = new Media(new File(path).toURI().toString());
         mediaPlayer = new MediaPlayer(media);
@@ -229,7 +229,7 @@ public class Controller {
     private void popVideo() {
         PopUpPane.setVisible(true);
         borderPane.setVisible(false);
-        String path = "E:\\videoplayback.mp4";
+        String path = "C:\\videoplayback.mp4";
 
         Media media = new Media(new File(path).toURI().toString());
         mediaPlayer = new MediaPlayer(media);
